@@ -18,7 +18,7 @@ namespace InsideAirbnbApp.Controllers
         // GET: Listings
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Listings.ToListAsync());
+            return View(await _context.Listings.Take(100).ToListAsync());
         }
 
         // GET: Listings/Details/5

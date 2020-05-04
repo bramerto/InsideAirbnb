@@ -19,7 +19,7 @@ namespace InsideAirbnbApp.Controllers
         // GET: Reviews
         public async Task<IActionResult> Index()
         {
-            var airbnbContext = _context.Reviews.Include(r => r.Listing);
+            var airbnbContext = _context.Reviews.Take(100).Include(r => r.Listing);
             return View(await airbnbContext.ToListAsync());
         }
 

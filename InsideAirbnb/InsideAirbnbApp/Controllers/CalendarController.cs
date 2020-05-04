@@ -19,7 +19,7 @@ namespace InsideAirbnbApp.Controllers
         // GET: Calendar
         public async Task<IActionResult> Index()
         {
-            var airbnbContext = _context.Calendar.Include(c => c.Listing);
+            var airbnbContext = _context.Calendar.Take(100).Include(c => c.Listing);
             return View(await airbnbContext.ToListAsync());
         }
 

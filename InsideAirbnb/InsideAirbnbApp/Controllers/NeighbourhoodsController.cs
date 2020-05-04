@@ -19,7 +19,7 @@ namespace InsideAirbnbApp.Controllers
         // GET: Neighbourhoods
         public async Task<IActionResult> Index()
         {
-            var airbnbContext = _context.Neighbourhoods.Include(n => n.Listing);
+            var airbnbContext = _context.Neighbourhoods.Take(100).Include(n => n.Listing);
             return View(await airbnbContext.ToListAsync());
         }
 
