@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InsideAirbnbApp.Models;
 
@@ -50,7 +53,7 @@ namespace InsideAirbnbApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,HostId,HostName,NeighbourhoodGroup,Neighbourhood,Latitude,Longitude,RoomType,Price,MinimumNights,NumberOfReviews,LastReview,ReviewsPerMonth,CalculatedHostListingsCount,Availability365")] Listings listings)
+        public async Task<IActionResult> Create([Bind("Id,ListingUrl,ScrapeId,LastScraped,Name,Summary,Space,Description,ExperiencesOffered,NeighborhoodOverview,Notes,Transit,Access,Interaction,HouseRules,ThumbnailUrl,MediumUrl,PictureUrl,XlPictureUrl,HostId,HostUrl,HostName,HostSince,HostLocation,HostAbout,HostResponseTime,HostResponseRate,HostAcceptanceRate,HostIsSuperhost,HostThumbnailUrl,HostPictureUrl,HostNeighbourhood,HostListingsCount,HostTotalListingsCount,HostVerifications,HostHasProfilePic,HostIdentityVerified,Street,Neighbourhood,NeighbourhoodCleansed,NeighbourhoodGroupCleansed,City,State,Zipcode,Market,SmartLocation,CountryCode,Country,Latitude,Longitude,IsLocationExact,PropertyType,RoomType,Accommodates,Bathrooms,Bedrooms,Beds,BedType,Amenities,SquareFeet,Price,WeeklyPrice,MonthlyPrice,SecurityDeposit,CleaningFee,GuestsIncluded,ExtraPeople,MinimumNights,MaximumNights,CalendarUpdated,HasAvailability,Availability30,Availability60,Availability90,Availability365,CalendarLastScraped,NumberOfReviews,FirstReview,LastReview,ReviewScoresRating,ReviewScoresAccuracy,ReviewScoresCleanliness,ReviewScoresCheckin,ReviewScoresCommunication,ReviewScoresLocation,ReviewScoresValue,RequiresLicense,License,JurisdictionNames,InstantBookable,IsBusinessTravelReady,CancellationPolicy,RequireGuestProfilePicture,RequireGuestPhoneVerification,CalculatedHostListingsCount,ReviewsPerMonth")] Listings listings)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +85,7 @@ namespace InsideAirbnbApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,HostId,HostName,NeighbourhoodGroup,Neighbourhood,Latitude,Longitude,RoomType,Price,MinimumNights,NumberOfReviews,LastReview,ReviewsPerMonth,CalculatedHostListingsCount,Availability365")] Listings listings)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ListingUrl,ScrapeId,LastScraped,Name,Summary,Space,Description,ExperiencesOffered,NeighborhoodOverview,Notes,Transit,Access,Interaction,HouseRules,ThumbnailUrl,MediumUrl,PictureUrl,XlPictureUrl,HostId,HostUrl,HostName,HostSince,HostLocation,HostAbout,HostResponseTime,HostResponseRate,HostAcceptanceRate,HostIsSuperhost,HostThumbnailUrl,HostPictureUrl,HostNeighbourhood,HostListingsCount,HostTotalListingsCount,HostVerifications,HostHasProfilePic,HostIdentityVerified,Street,Neighbourhood,NeighbourhoodCleansed,NeighbourhoodGroupCleansed,City,State,Zipcode,Market,SmartLocation,CountryCode,Country,Latitude,Longitude,IsLocationExact,PropertyType,RoomType,Accommodates,Bathrooms,Bedrooms,Beds,BedType,Amenities,SquareFeet,Price,WeeklyPrice,MonthlyPrice,SecurityDeposit,CleaningFee,GuestsIncluded,ExtraPeople,MinimumNights,MaximumNights,CalendarUpdated,HasAvailability,Availability30,Availability60,Availability90,Availability365,CalendarLastScraped,NumberOfReviews,FirstReview,LastReview,ReviewScoresRating,ReviewScoresAccuracy,ReviewScoresCleanliness,ReviewScoresCheckin,ReviewScoresCommunication,ReviewScoresLocation,ReviewScoresValue,RequiresLicense,License,JurisdictionNames,InstantBookable,IsBusinessTravelReady,CancellationPolicy,RequireGuestProfilePicture,RequireGuestPhoneVerification,CalculatedHostListingsCount,ReviewsPerMonth")] Listings listings)
         {
             if (id != listings.Id)
             {

@@ -1,13 +1,10 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace InsideAirbnbApp.Models
 {
     public partial class AirbnbContext : DbContext
     {
-        public AirbnbContext(DbContextOptions<AirbnbContext> options)
-            : base(options)
+        public AirbnbContext(DbContextOptions<AirbnbContext> options) : base(options)
         {
         }
 

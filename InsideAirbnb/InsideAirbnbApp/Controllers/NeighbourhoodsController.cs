@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -24,7 +26,7 @@ namespace InsideAirbnbApp.Controllers
         }
 
         // GET: Neighbourhoods/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -32,8 +34,7 @@ namespace InsideAirbnbApp.Controllers
             }
 
             var neighbourhoods = await _context.Neighbourhoods
-                .Include(n => n.Listing)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Neighbourhood == id);
             if (neighbourhoods == null)
             {
                 return NotFound();
@@ -45,7 +46,6 @@ namespace InsideAirbnbApp.Controllers
         // GET: Neighbourhoods/Create
         public IActionResult Create()
         {
-            ViewData["ListingId"] = new SelectList(_context.Listings, "Id", "Name");
             return View();
         }
 
@@ -54,7 +54,7 @@ namespace InsideAirbnbApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ListingId,Date,Id")] Neighbourhoods neighbourhoods)
+        public async Task<IActionResult> Create([Bind("NeighbourhoodGroup,Neighbourhood")] Neighbourhoods neighbourhoods)
         {
             if (ModelState.IsValid)
             {
@@ -62,12 +62,11 @@ namespace InsideAirbnbApp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ListingId"] = new SelectList(_context.Listings, "Id", "Name", neighbourhoods.ListingId);
             return View(neighbourhoods);
         }
 
         // GET: Neighbourhoods/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
@@ -79,7 +78,6 @@ namespace InsideAirbnbApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["ListingId"] = new SelectList(_context.Listings, "Id", "Name", neighbourhoods.ListingId);
             return View(neighbourhoods);
         }
 
@@ -88,9 +86,9 @@ namespace InsideAirbnbApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ListingId,Date,Id")] Neighbourhoods neighbourhoods)
+        public async Task<IActionResult> Edit(string id, [Bind("NeighbourhoodGroup,Neighbourhood")] Neighbourhoods neighbourhoods)
         {
-            if (id != neighbourhoods.Id)
+            if (id != neighbourhoods.Neighbourhood)
             {
                 return NotFound();
             }
@@ -104,7 +102,7 @@ namespace InsideAirbnbApp.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!NeighbourhoodsExists(neighbourhoods.Id))
+                    if (!NeighbourhoodsExists(neighbourhoods.Neighbourhood))
                     {
                         return NotFound();
                     }
@@ -115,12 +113,11 @@ namespace InsideAirbnbApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ListingId"] = new SelectList(_context.Listings, "Id", "Name", neighbourhoods.ListingId);
             return View(neighbourhoods);
         }
 
         // GET: Neighbourhoods/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
@@ -128,8 +125,7 @@ namespace InsideAirbnbApp.Controllers
             }
 
             var neighbourhoods = await _context.Neighbourhoods
-                .Include(n => n.Listing)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Neighbourhood == id);
             if (neighbourhoods == null)
             {
                 return NotFound();
@@ -141,7 +137,7 @@ namespace InsideAirbnbApp.Controllers
         // POST: Neighbourhoods/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var neighbourhoods = await _context.Neighbourhoods.FindAsync(id);
             _context.Neighbourhoods.Remove(neighbourhoods);
@@ -149,9 +145,9 @@ namespace InsideAirbnbApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool NeighbourhoodsExists(int id)
+        private bool NeighbourhoodsExists(string id)
         {
-            return _context.Neighbourhoods.Any(e => e.Id == id);
+            return _context.Neighbourhoods.Any(e => e.Neighbourhood == id);
         }
     }
 }

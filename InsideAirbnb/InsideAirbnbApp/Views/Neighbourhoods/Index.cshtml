@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Index</h1>
@@ -13,10 +14,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Listing)
+                @Html.DisplayNameFor(model => model.NeighbourhoodGroup)
             </th>
             <th></th>
         </tr>
@@ -25,15 +23,12 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Date)
+                @Html.DisplayFor(modelItem => item.NeighbourhoodGroup)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Listing.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Neighbourhood">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Neighbourhood">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Neighbourhood">Delete</a>
             </td>
         </tr>
 }

@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -45,7 +47,7 @@ namespace InsideAirbnbApp.Controllers
         // GET: Reviews/Create
         public IActionResult Create()
         {
-            ViewData["ListingId"] = new SelectList(_context.Listings, "Id", "Name");
+            ViewData["ListingId"] = new SelectList(_context.Listings, "Id", "Access");
             return View();
         }
 
@@ -54,7 +56,7 @@ namespace InsideAirbnbApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ListingId,Date,Id")] Reviews reviews)
+        public async Task<IActionResult> Create([Bind("ListingId,Id,Date,ReviewerId,ReviewerName,Comments")] Reviews reviews)
         {
             if (ModelState.IsValid)
             {
@@ -62,7 +64,7 @@ namespace InsideAirbnbApp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ListingId"] = new SelectList(_context.Listings, "Id", "Name", reviews.ListingId);
+            ViewData["ListingId"] = new SelectList(_context.Listings, "Id", "Access", reviews.ListingId);
             return View(reviews);
         }
 
@@ -79,7 +81,7 @@ namespace InsideAirbnbApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["ListingId"] = new SelectList(_context.Listings, "Id", "Name", reviews.ListingId);
+            ViewData["ListingId"] = new SelectList(_context.Listings, "Id", "Access", reviews.ListingId);
             return View(reviews);
         }
 
@@ -88,7 +90,7 @@ namespace InsideAirbnbApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ListingId,Date,Id")] Reviews reviews)
+        public async Task<IActionResult> Edit(int id, [Bind("ListingId,Id,Date,ReviewerId,ReviewerName,Comments")] Reviews reviews)
         {
             if (id != reviews.Id)
             {
@@ -115,7 +117,7 @@ namespace InsideAirbnbApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ListingId"] = new SelectList(_context.Listings, "Id", "Name", reviews.ListingId);
+            ViewData["ListingId"] = new SelectList(_context.Listings, "Id", "Access", reviews.ListingId);
             return View(reviews);
         }
 
