@@ -7,5 +7,7 @@ namespace InsideAirbnbApp.Models
     {
         public int ListingId { get; set; }
         public DateTime Date { get; set; }
+
+        public virtual Listings Listing { get; set; }
     }
 }

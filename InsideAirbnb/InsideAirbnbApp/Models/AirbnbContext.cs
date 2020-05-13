@@ -379,6 +379,12 @@ namespace InsideAirbnbApp.Models
                 entity.Property(e => e.Date).HasColumnName("date");
 
                 entity.Property(e => e.ListingId).HasColumnName("listing_id");
+
+                entity.HasOne(d => d.Listing)
+                    .WithMany()
+                    .HasForeignKey(x => x.ListingId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_summary-reviews_listings");
             });
 
             OnModelCreatingPartial(modelBuilder);
