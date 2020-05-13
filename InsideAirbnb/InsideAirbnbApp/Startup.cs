@@ -30,12 +30,12 @@ namespace InsideAirbnbApp
                 }).AddEntityFramework();
 
             services.AddDbContext<AirbnbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AirBnb")));
-            services.AddAuthentication(AzureADB2CDefaults.AuthenticationScheme)
-                .AddAzureADB2C(options => Configuration.Bind("AzureAdB2C", options));
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Admin", policy => policy.RequireClaim("extension_Role", "Admin"));
-            });
+            // services.AddAuthentication(AzureADB2CDefaults.AuthenticationScheme)
+            //     .AddAzureADB2C(options => Configuration.Bind("AzureAdB2C", options));
+            // services.AddAuthorization(options =>
+            // {
+            //     options.AddPolicy("Admin", policy => policy.RequireClaim("extension_Role", "Admin"));
+            // });
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -65,8 +65,8 @@ namespace InsideAirbnbApp
 
             app.UseRouting();
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+            // app.UseAuthentication();
+            // app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
