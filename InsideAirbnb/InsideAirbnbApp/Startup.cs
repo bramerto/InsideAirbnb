@@ -22,6 +22,8 @@ namespace InsideAirbnbApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Use for performance improvement after baseline calculation
+            // services.AddResponseCompression();
             services.AddElm();
             services.AddMiniProfiler(options =>
                 {
@@ -44,7 +46,8 @@ namespace InsideAirbnbApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            
+            // Use for performance improvement after baseline calculation
+            // app.UseResponseCompression();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

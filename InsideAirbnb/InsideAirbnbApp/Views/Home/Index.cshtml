@@ -1,8 +1,59 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<InsideAirbnbApp.Models.Listings>
+
+@{
+    ViewData["Title"] = "InsideAirbnb";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>InsideAirBnb Home page.</p>
-</div>
+<div id="map"></div>
+
+<div id="information"></div>
+
+<style>
+    #map {
+        position: absolute;
+        width: 75%;
+        height: 90%;
+        display: block;
+    }
+    #information {
+        position: absolute;
+        width: 25%;
+        height: 90%;
+        float: right;
+    }
+
+    .marker {
+        background-image: url('https://www.quantmania.nl/wp-content/uploads/2018/02/map-marker-icon-300x300.png');
+        background-size: cover;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+</style>
+<script>
+    L.mapbox.accessToken = 'pk.eyJ1IjoiYnJhbWVydG8iLCJhIjoiY2thNm90a2l3MDdyNjJzbnhiMzVrMWVucSJ9.hTnCZQKNPQzlNvIzJlE81Q';
+
+    var map = L.mapbox.map('map')
+        .setView([51.983047, 5.903408], 12)
+        .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'));
+
+    var marker = L.divIcon({
+        className: 'marker',
+        iconSize: [10, 10]
+    });
+
+    //FIXME - Assigning id to marker: https://stackoverflow.com/questions/25683871/assign-id-to-marker-in-leaflet
+    @foreach (var item in Model)
+    {
+        @:var marker = L.marker([@item.Longitude, @item.Latitude], { icon: marker }).addTo(map);
+        @:marker._icon.id = @item.Id;
+    }
+
+    $('.leaflet-marker-icon').on('click', function(e) {
+        var el = $(e.srcElement || e.target),
+            id = el.attr('id');
+
+        alert('Here is the markers ID: ' + id + '. Use it as you wish.');
+    });
+</script>
