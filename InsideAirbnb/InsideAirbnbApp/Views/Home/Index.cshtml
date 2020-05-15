@@ -5,7 +5,64 @@
 }
 
 <div id="map"></div>
-@* <div id="information"></div> *@
+<div id="mapcontrols-container">
+    <div class="col-md-12">
+        <div class="form-row">
+            <h3><b>Filter map</b></h3>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="minPriceFilter">Minimale Prijs</label>
+                <input type="text" name="minPriceFilter" id="minPriceFilter" class="form-control" value="0" />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="maxPriceFilter">Maximum Prijs</label>
+                <input type="text" name="maxPriceFilter" id="maxPriceFilter" class="form-control" value="1000" />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="neighbourhoodFilter">Buurt</label>
+                <select class="form-control" id="neighbourhoodFilter">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="minReviewsFilter">Minimum aantal reviews</label>
+                <input type="text" name="minReviewsFilter" id="minReviewsFilter" class="form-control" value="0" />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="maxReviewsFilter">Maximaal aantal reviews</label>
+                <input type="text" name="maxReviewsFilter" id="maxReviewsFilter" class="form-control" value="10000" />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <button type="button" class="btn btn-primary mb-2">Filter</button>
+            </div>
+        </div>
+        <hr />
+        <div class="form-row">
+            <h3><b>Informatie over geselecteerde locatie</b></h3>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="locationUrl">Url</label>
+                <input type="text" name="locationUrl" id="locationUrl" class="form-control" value="" disabled />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="locationName">Naam</label>
+                <input type="text" name="locationName" id="locationName" class="form-control" value="" disabled />
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     L.mapbox.accessToken = "@ConfigurationManager.AppSettings["mapboxaccesstoken"]";
