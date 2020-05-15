@@ -51,6 +51,7 @@ namespace InsideAirbnbApp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                // app.UseDirectoryBrowser();
             }
             else
             {
@@ -58,6 +59,22 @@ namespace InsideAirbnbApp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.Use(async (context, next) =>
+            {
+                // Blocks web page from being included in <frame>, <iframe>, <embed> or <object>
+                context.Response.Headers.Add("X-Frame-Options", "DENY");
+                // How much referrer info must included in requests
+                context.Response.Headers.Add("Referrer-Policy", "no-referrer");
+                // Blocks a request if the request destination is with a wrong type and MIME type combo 
+                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                // Cross side scripting protection
+                context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
+
+                await next();
+            });
+
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
