@@ -350,3 +350,4 @@ MigrationBackup/
 .ionide/
 InsideAirbnb/InsideAirbnbApp/appsettings.json
 InsideAirbnb/InsideAirbnbApp/appsettings.Development.json
+InsideAirbnb/InsideAirbnbApp/App.config
