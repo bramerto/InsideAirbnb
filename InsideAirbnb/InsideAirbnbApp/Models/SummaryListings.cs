@@ -11,8 +11,8 @@ namespace InsideAirbnbApp.Models
         public string HostName { get; set; }
         public string NeighbourhoodGroup { get; set; }
         public string Neighbourhood { get; set; }
-        public double? Latitude { get; set; }
-        public double? Longitude { get; set; }
+        public decimal? Latitude { get; set; }
+        public decimal? Longitude { get; set; }
         public string RoomType { get; set; }
         public int? Price { get; set; }
         public int? MinimumNights { get; set; }

@@ -83,7 +83,7 @@
     //FIXME: make AJAX call and iterate over in JS.
     @foreach (var item in Model)
     {
-        @:markers[i] = L.marker([@item.Latitude.ToString().Insert(2, "."), @item.Longitude.ToString().Insert(1, ".")], { icon: marker }).on('click', handleMarker).addTo(map);
+        @:markers[i] = L.marker([@item.Latitude, @item.Longitude], { icon: marker }).on('click', handleMarker).addTo(map);
         @:markers[i]._icon.id = @item.Id;
     }
 
