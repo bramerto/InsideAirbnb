@@ -1,4 +1,5 @@
 using InsideAirbnbApp.Models;
+using InsideAirbnbApp.Repositories;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.AzureADB2C.UI;
 using Microsoft.AspNetCore.Builder;
@@ -32,8 +33,11 @@ namespace InsideAirbnbApp
                 }).AddEntityFramework();
 
             services.AddDbContext<AirbnbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AirBnb")));
-            services.AddAuthentication(AzureADB2CDefaults.AuthenticationScheme)
-                .AddAzureADB2C(options => Configuration.Bind("AzureAdB2C", options));
+            services.AddStackExchangeRedisCache(options => {
+                options.Configuration = Configuration.GetConnectionString("Redis");
+                options.InstanceName = "InsideAirbnbRedis";
+            });
+            services.AddAuthentication(AzureADB2CDefaults.AuthenticationScheme).AddAzureADB2C(options => Configuration.Bind("AzureAdB2C", options));
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Reader", policy => policy.RequireClaim("extension_Role", "Reader"));
@@ -42,6 +46,10 @@ namespace InsideAirbnbApp
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddMvc();
+
+            services.AddScoped<IRepository<Neighbourhoods>, NeighbourhoodsRepository>();
+            services.AddScoped<IRepository<Listings>, ListingsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +60,6 @@ namespace InsideAirbnbApp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                // app.UseDirectoryBrowser();
             }
             else
             {
@@ -91,6 +98,7 @@ namespace InsideAirbnbApp
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("api", "api/{controller}/{action}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

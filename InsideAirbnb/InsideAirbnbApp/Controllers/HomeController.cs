@@ -2,21 +2,25 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using InsideAirbnbApp.Models;
+using InsideAirbnbApp.Repositories;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace InsideAirbnbApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly AirbnbContext _context;
+        private readonly IRepository<Listings> _repo;
+        private readonly IDistributedCache _cache;
 
-        public HomeController(AirbnbContext context)
+        public HomeController(IRepository<Listings> repo, IDistributedCache cache)
         {
-            _context = context;
+            _repo = repo;
+            _cache = cache;
         }
 
         public IActionResult Index()
         {
-            return View(_context.Listings.Take(100).ToList());
+            return View(_repo.All().ToList());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
