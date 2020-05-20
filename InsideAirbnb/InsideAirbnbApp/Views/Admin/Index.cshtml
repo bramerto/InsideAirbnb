@@ -1,0 +1,61 @@
+﻿@model List<InsideAirbnbApp.ViewModels.DefaultChartViewModel>
+@using System.Text.Json
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var Xlabels = JsonSerializer.Serialize(Model.Select(x => x.name).ToList());
+    var YValues = JsonSerializer.Serialize(Model.Select(x => x.value).ToList());
+}
+
+<div class="chart-container">
+    <canvas id="chart" style="width:100%; height:500px"></canvas>
+</div>
+
+<script>
+    var chartName = "chart";
+    var ctx = document.getElementById(chartName).getContext('2d');
+
+    var data = {
+        labels: @Html.Raw(Xlabels),
+        datasets: [{
+            label: "Products Chart",
+            borderWidth: 1,
+            data: @Html.Raw(YValues)
+        }]
+    };
+
+    var options = {
+        scales: {
+            yAxes: [{
+                scaleLabel: {
+                    display: true,
+                    labelString: "price"
+                },
+                ticks: {
+                    min: 0,
+                    beginAtZero: true
+                },
+                gridLines: {
+                    display: true,
+                    color: "rgba(255,99,164,0.2)"
+                }
+            }],
+            xAxes: [{
+                scaleLabel: {
+                    display: true,
+                    labelString: "city's"
+                },
+                gridLines: {
+                    display: false
+                }
+            }]
+        }
+    };
+
+    var myChart = new Chart(ctx, {
+        options: options,
+        data: data,
+        type:'bar'
+    });
+</script>
