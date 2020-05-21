@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace InsideAirbnbApp.Repositories
 {
@@ -6,6 +7,6 @@ namespace InsideAirbnbApp.Repositories
     {
         public T Get(int id);
         public T Get(string id);
-        public IEnumerable<T> All();
+        public IQueryable<T> All();
     }
 }

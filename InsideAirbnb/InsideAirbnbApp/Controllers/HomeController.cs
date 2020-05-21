@@ -1,9 +1,10 @@
 ﻿using System.Diagnostics;
-using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using InsideAirbnbApp.Models;
 using InsideAirbnbApp.Repositories;
 using InsideAirbnbApp.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 
 namespace InsideAirbnbApp.Controllers
@@ -19,9 +20,9 @@ namespace InsideAirbnbApp.Controllers
             _cache = cache;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_repo.All().ToList());
+            return View(await _repo.All().ToListAsync());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

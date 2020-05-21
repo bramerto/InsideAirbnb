@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using InsideAirbnbApp.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace InsideAirbnbApp.Repositories
 {
@@ -23,9 +23,9 @@ namespace InsideAirbnbApp.Repositories
             return _context.Neighbourhoods.First(n => n.Neighbourhood == id);
         }
 
-        public IEnumerable<Neighbourhoods> All()
+        public IQueryable<Neighbourhoods> All()
         {
-            return _context.Neighbourhoods;
+            return _context.Neighbourhoods.AsNoTracking();
         }
     }
 }

@@ -51,7 +51,7 @@ namespace InsideAirbnbApp.Repositories
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ListingsViewModel> All()
+        public IQueryable<ListingsViewModel> All()
         {
             return _context.Listings.Select(l => new ListingsViewModel
             {
