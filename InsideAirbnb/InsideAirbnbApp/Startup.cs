@@ -1,5 +1,6 @@
 using InsideAirbnbApp.Models;
 using InsideAirbnbApp.Repositories;
+using InsideAirbnbApp.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.AzureADB2C.UI;
 using Microsoft.AspNetCore.Builder;
@@ -23,8 +24,10 @@ namespace InsideAirbnbApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Use for performance improvement after baseline calculation
-            // services.AddResponseCompression();
+            // Performance
+            services.AddResponseCompression();
+
+            // Profiling tools
             services.AddElm();
             services.AddMiniProfiler(options =>
                 {
@@ -32,11 +35,18 @@ namespace InsideAirbnbApp
                     options.PopupShowTimeWithChildren = true;
                 }).AddEntityFramework();
 
+            // Database and Redis cache server
             services.AddDbContext<AirbnbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AirBnb")));
             services.AddStackExchangeRedisCache(options => {
                 options.Configuration = Configuration.GetConnectionString("Redis");
                 options.InstanceName = "InsideAirbnbRedis";
             });
+
+            // Repository pattern
+            services.AddScoped<IRepository<Neighbourhoods>, NeighbourhoodsRepository>();
+            services.AddScoped<IRepository<ListingsViewModel>, ListingsRepository>();
+
+            // Azure Active Directory B2C
             services.AddAuthentication(AzureADB2CDefaults.AuthenticationScheme).AddAzureADB2C(options => Configuration.Bind("AzureAdB2C", options));
             services.AddAuthorization(options =>
             {
@@ -44,19 +54,18 @@ namespace InsideAirbnbApp
                 options.AddPolicy("Admin", policy => policy.RequireClaim("extension_Role", "Admin"));
             });
 
+            // Default 
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddMvc();
-
-            services.AddScoped<IRepository<Neighbourhoods>, NeighbourhoodsRepository>();
-            services.AddScoped<IRepository<Listings>, ListingsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // Use for performance improvement after baseline calculation
-            // app.UseResponseCompression();
+            // Increases performance by compression
+            app.UseResponseCompression();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -68,6 +77,7 @@ namespace InsideAirbnbApp
                 app.UseHsts();
             }
 
+            //Block HTTP headers for security
             app.Use(async (context, next) =>
             {
                 // Blocks web page from being included in <frame>, <iframe>, <embed> or <object>

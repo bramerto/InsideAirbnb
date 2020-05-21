@@ -3,16 +3,17 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using InsideAirbnbApp.Models;
 using InsideAirbnbApp.Repositories;
+using InsideAirbnbApp.ViewModels;
 using Microsoft.Extensions.Caching.Distributed;
 
 namespace InsideAirbnbApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IRepository<Listings> _repo;
+        private readonly IRepository<ListingsViewModel> _repo;
         private readonly IDistributedCache _cache;
 
-        public HomeController(IRepository<Listings> repo, IDistributedCache cache)
+        public HomeController(IRepository<ListingsViewModel> repo, IDistributedCache cache)
         {
             _repo = repo;
             _cache = cache;
