@@ -28,7 +28,6 @@ namespace InsideAirbnbApp
             services.AddResponseCompression();
 
             // Profiling tools
-            services.AddElm();
             services.AddMiniProfiler(options =>
                 {
                     options.PopupRenderPosition = StackExchange.Profiling.RenderPosition.BottomLeft;
@@ -94,9 +93,6 @@ namespace InsideAirbnbApp
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
-            app.UseElmPage();
-            app.UseElmCapture();
 
             app.UseMiniProfiler();
 
