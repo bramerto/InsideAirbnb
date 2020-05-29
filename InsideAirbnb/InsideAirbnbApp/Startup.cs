@@ -42,7 +42,7 @@ namespace InsideAirbnbApp
             });
 
             // Repository pattern
-            services.AddScoped<IRepository<Neighbourhoods>, NeighbourhoodsRepository>();
+            services.AddScoped<IRepository<NeighbourhoodsViewModel>, NeighbourhoodsRepository>();
             services.AddScoped<IRepository<ListingsViewModel>, ListingsRepository>();
 
             // Azure Active Directory B2C

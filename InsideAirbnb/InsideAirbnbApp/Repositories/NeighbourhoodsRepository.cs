@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using InsideAirbnbApp.Models;
+using InsideAirbnbApp.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace InsideAirbnbApp.Repositories
 {
-    public class NeighbourhoodsRepository : IRepository<Neighbourhoods>
+    public class NeighbourhoodsRepository : IRepository<NeighbourhoodsViewModel>
     {
         private readonly AirbnbContext _context;
         public NeighbourhoodsRepository(AirbnbContext context)
@@ -13,19 +15,30 @@ namespace InsideAirbnbApp.Repositories
             _context = context;
         }
 
-        public Neighbourhoods Get(int id)
+        public Task<NeighbourhoodsViewModel> Get(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Neighbourhoods Get(string id)
+        public Task<NeighbourhoodsViewModel> Get(string id)
         {
-            return _context.Neighbourhoods.First(n => n.Neighbourhood == id);
+            return _context.Neighbourhoods.Select(n => new NeighbourhoodsViewModel
+            {
+                Neighbourhood = n.Neighbourhood,
+                NeighbourhoodGroup = n.NeighbourhoodGroup
+            })
+                .AsNoTracking()
+                .FirstOrDefaultAsync(n => n.Neighbourhood == id);
         }
 
-        public IQueryable<Neighbourhoods> All()
+        public IQueryable<NeighbourhoodsViewModel> All()
         {
-            return _context.Neighbourhoods.AsNoTracking();
+            return _context.Neighbourhoods.Select(n => new NeighbourhoodsViewModel
+            {
+                Neighbourhood = n.Neighbourhood,
+                NeighbourhoodGroup = n.NeighbourhoodGroup
+            })
+                .AsNoTracking();
         }
     }
 }

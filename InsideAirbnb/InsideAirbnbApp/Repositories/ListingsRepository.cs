@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using InsideAirbnbApp.Models;
 using InsideAirbnbApp.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -15,9 +15,9 @@ namespace InsideAirbnbApp.Repositories
             _context = context;
         }
 
-        public ListingsViewModel Get(int id)
+        public async Task<ListingsViewModel> Get(int id)
         {
-            return _context.Listings.Select(l => new ListingsViewModel
+            return await _context.Listings.Select(l => new ListingsViewModel
             {
                 Id = l.Id,
                 ListingUrl = l.ListingUrl,
@@ -43,10 +43,10 @@ namespace InsideAirbnbApp.Repositories
                 MaximumNights = l.MaximumNights
             })
                 .AsNoTracking()
-                .First(l => l.Id == id);
+                .FirstOrDefaultAsync(l => l.Id == id);
         }
 
-        public ListingsViewModel Get(string id)
+        public Task<ListingsViewModel> Get(string id)
         {
             throw new NotImplementedException();
         }
