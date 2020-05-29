@@ -11,15 +11,6 @@ namespace InsideAirbnbApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IRepository<ListingsViewModel> _repo;
-        private readonly IDistributedCache _cache;
-
-        public HomeController(IRepository<ListingsViewModel> repo, IDistributedCache cache)
-        {
-            _repo = repo;
-            _cache = cache;
-        }
-
         public IActionResult Index()
         {
             return View();

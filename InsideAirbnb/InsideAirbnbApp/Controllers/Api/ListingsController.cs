@@ -50,10 +50,9 @@ namespace InsideAirbnbApp.Controllers.Api
         }
 
         [HttpGet("{id}")]
-        public async Task<ListingsViewModel> Details(int id)
+        public async Task<string> Details(int id)
         {
-            var listings = await _repo.Get(id);
-            return listings ?? null;
+            return Newtonsoft.Json.JsonConvert.SerializeObject(await _repo.Get(id));
         }
     }
 }

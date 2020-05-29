@@ -292,8 +292,8 @@ namespace InsideAirbnbApp.Models
                     .HasColumnName("neighbourhood")
                     .HasMaxLength(50);
 
-                entity.Property(e => e.NeighbourhoodGroup)
-                    .HasColumnName("neighbourhood_group")
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
                     .HasMaxLength(1);
             });
 

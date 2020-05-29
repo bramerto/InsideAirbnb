@@ -5,7 +5,7 @@ namespace InsideAirbnbApp.Models
 {
     public partial class Neighbourhoods
     {
-        public string NeighbourhoodGroup { get; set; }
+        public int Id { get; set; }
         public string Neighbourhood { get; set; }
     }
 }

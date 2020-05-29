@@ -7,7 +7,7 @@ namespace InsideAirbnbApp.ViewModels
 {
     public class NeighbourhoodsViewModel
     {
-        public string NeighbourhoodGroup { get; set; }
+        public int Id { get; set; }
         public string Neighbourhood { get; set; }
     }
 }

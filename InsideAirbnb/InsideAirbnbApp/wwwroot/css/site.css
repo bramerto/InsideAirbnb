@@ -85,17 +85,8 @@ body {
 #map {
     position: fixed;
     width: 75%;
-    height: 90%;
+    height: 94%;
     display: block;
     left: 0;
     top: 57px;
-}
-
-.marker {
-    background-image: url('https://www.quantmania.nl/wp-content/uploads/2018/02/map-marker-icon-300x300.png');
-    background-size: cover;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    cursor: pointer;
 }

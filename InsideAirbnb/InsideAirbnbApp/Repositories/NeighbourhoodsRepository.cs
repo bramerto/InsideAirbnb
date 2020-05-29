@@ -17,18 +17,13 @@ namespace InsideAirbnbApp.Repositories
 
         public Task<NeighbourhoodsViewModel> Get(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<NeighbourhoodsViewModel> Get(string id)
-        {
             return _context.Neighbourhoods.Select(n => new NeighbourhoodsViewModel
-            {
-                Neighbourhood = n.Neighbourhood,
-                NeighbourhoodGroup = n.NeighbourhoodGroup
-            })
+                {
+                    Neighbourhood = n.Neighbourhood,
+                    Id = n.Id
+                })
                 .AsNoTracking()
-                .FirstOrDefaultAsync(n => n.Neighbourhood == id);
+                .FirstOrDefaultAsync(n => n.Id == id);
         }
 
         public IQueryable<NeighbourhoodsViewModel> All()
@@ -36,7 +31,7 @@ namespace InsideAirbnbApp.Repositories
             return _context.Neighbourhoods.Select(n => new NeighbourhoodsViewModel
             {
                 Neighbourhood = n.Neighbourhood,
-                NeighbourhoodGroup = n.NeighbourhoodGroup
+                Id = n.Id
             })
                 .AsNoTracking();
         }

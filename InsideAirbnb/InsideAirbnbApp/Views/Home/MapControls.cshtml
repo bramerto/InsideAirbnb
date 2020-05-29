@@ -6,38 +6,33 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="minPriceFilter">Minimale Prijs</label>
-                <input type="text" name="minPriceFilter" id="minPriceFilter" class="form-control" value="0" />
+                <input type="number" name="minPriceFilter" id="minPriceFilter" class="form-control" value="0" />
             </div>
             <div class="form-group col-md-6">
                 <label for="maxPriceFilter">Maximum Prijs</label>
-                <input type="text" name="maxPriceFilter" id="maxPriceFilter" class="form-control" value="1000" />
+                <input type="number" name="maxPriceFilter" id="maxPriceFilter" class="form-control" value="1000" />
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="neighbourhoodFilter">Buurt</label>
                 <select class="form-control" id="neighbourhoodFilter">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
                 </select>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="minReviewsFilter">Minimum aantal reviews</label>
-                <input type="text" name="minReviewsFilter" id="minReviewsFilter" class="form-control" value="0" />
+                <input type="number" name="minReviewsFilter" id="minReviewsFilter" class="form-control" value="0" />
             </div>
             <div class="form-group col-md-6">
                 <label for="maxReviewsFilter">Maximaal aantal reviews</label>
-                <input type="text" name="maxReviewsFilter" id="maxReviewsFilter" class="form-control" value="10000" />
+                <input type="number" name="maxReviewsFilter" id="maxReviewsFilter" class="form-control" value="10000" />
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-4">
-                <button type="button" class="btn btn-primary mb-2">Filter</button>
+                <button type="button" id="submitFilter" class="btn btn-primary mb-2">Filter</button>
             </div>
         </div>
         <hr />
@@ -46,12 +41,60 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-12">
-                <label for="locationUrl">Url</label>
+                <label for="locationUrl">URL</label>
                 <input type="text" name="locationUrl" id="locationUrl" class="form-control" value="" disabled />
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-12">
                 <label for="locationName">Naam</label>
                 <input type="text" name="locationName" id="locationName" class="form-control" value="" disabled />
+            </div>
+            <div class="form-group col-md-12">
+                <label for="locationSummary">Samenvatting</label>
+                <textarea name="locationSummary" id="locationSummary" class="form-control" value="" disabled ></textarea>
+            </div>
+            <div class="form-group col-md-12">
+                <label for="locationDescription">Beschrijving</label>
+                <textarea name="locationDescription" id="locationDescription" class="form-control" value="" disabled></textarea>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="locationNeighbourhood">Buurt</label>
+                <input type="text" name="locationNeighbourhood" id="locationNeighbourhood" class="form-control" value="" disabled />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="locationZipcode">Postcode</label>
+                <input type="text" name="locationZipcode" id="locationZipcode" class="form-control" value="" disabled />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="locationSquareFeet">Oppervlakte</label>
+                <input type="text" name="locationSquareFeet" id="locationSquareFeet" class="form-control" value="" disabled />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="locationPrice">Prijs</label>
+                <input type="text" name="locationPrice" id="locationPrice" class="form-control" value="" disabled />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="locationWeeklyPrice">Wekelijkse Prijs</label>
+                <input type="text" name="locationWeeklyPrice" id="locationWeeklyPrice" class="form-control" value="" disabled />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="locationMonthlyPrice">Maandelijkse Prijs</label>
+                <input type="text" name="locationMonthlyPrice" id="locationMonthlyPrice" class="form-control" value="" disabled />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="locationSecurityDeposit">Borg</label>
+                <input type="text" name="locationSecurityDeposit" id="locationSecurityDeposit" class="form-control" value="" disabled />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="locationCleaningFee">Schoonmaakkosten</label>
+                <input type="text" name="locationCleaningFee" id="locationCleaningFee" class="form-control" value="" disabled />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="locationMinimumNights">Minimum aantal nachten</label>
+                <input type="text" name="locationMinimumNights" id="locationMinimumNights" class="form-control" value="" disabled />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="locationMaximumNights">Maximum aantal nachten</label>
+                <input type="text" name="locationCleaningFee" id="locationMaximumNights" class="form-control" value="" disabled />
             </div>
         </div>
     </div>

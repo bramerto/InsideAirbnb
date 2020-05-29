@@ -1,4 +1,14 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿$(document).ready(function () {
 
-// Write your JavaScript code.
+    $.ajax({
+        url: "api/neighbourhoods",
+        method: "GET",
+        dataType: "json"
+    }).done((data) => {
+        var options = "";
+        for (var x = 0; x < data.length; x++) {
+            options += '<option value="' + data[x].Id + '">' + data[x].Neighbourhood + "</option>";
+        }
+        $("#neighbourhoodFilter").html(options);
+    });
+});

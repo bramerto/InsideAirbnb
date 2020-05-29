@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using InsideAirbnbApp.Repositories;
 using InsideAirbnbApp.ViewModels;
@@ -22,16 +21,15 @@ namespace InsideAirbnbApp.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<List<NeighbourhoodsViewModel>> Index()
+        public async Task<string> Index()
         {
-            return await _repo.All().ToListAsync();
+            return Newtonsoft.Json.JsonConvert.SerializeObject(await _repo.All().ToListAsync());
         }
 
         [HttpGet("{id}")]
-        public async Task<NeighbourhoodsViewModel> Details(string id)
+        public async Task<string> Details(int id)
         {
-            var neighbourhoods = await _repo.Get(id);
-            return neighbourhoods ?? null;
+            return Newtonsoft.Json.JsonConvert.SerializeObject(await _repo.Get(id));
         }
     }
 }

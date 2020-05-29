@@ -24,10 +24,7 @@ namespace InsideAirbnbApp.Repositories
                 Name = l.Name,
                 Summary = l.Summary,
                 Description = l.Description,
-                Street = l.Street,
                 Neighbourhood = l.Neighbourhood,
-                City = l.City,
-                State = l.State,
                 Zipcode = l.Zipcode,
                 Latitude = l.Latitude,
                 Longitude = l.Longitude,
@@ -37,18 +34,11 @@ namespace InsideAirbnbApp.Repositories
                 MonthlyPrice = l.MonthlyPrice,
                 SecurityDeposit = l.SecurityDeposit,
                 CleaningFee = l.CleaningFee,
-                GuestsIncluded = l.GuestsIncluded,
-                ExtraPeople = l.ExtraPeople,
                 MinimumNights = l.MinimumNights,
                 MaximumNights = l.MaximumNights
             })
                 .AsNoTracking()
                 .FirstOrDefaultAsync(l => l.Id == id);
-        }
-
-        public Task<ListingsViewModel> Get(string id)
-        {
-            throw new NotImplementedException();
         }
 
         public IQueryable<ListingsViewModel> All()
@@ -60,10 +50,7 @@ namespace InsideAirbnbApp.Repositories
                 // Name = l.Name,
                 // Summary = l.Summary,
                 // Description = l.Description,
-                // Street = l.Street,
                 // Neighbourhood = l.Neighbourhood,
-                // City = l.City,
-                // State = l.State,
                 // Zipcode = l.Zipcode,
                 Latitude = l.Latitude,
                 Longitude = l.Longitude,
@@ -73,8 +60,6 @@ namespace InsideAirbnbApp.Repositories
                 // MonthlyPrice = l.MonthlyPrice,
                 // SecurityDeposit = l.SecurityDeposit,
                 // CleaningFee = l.CleaningFee,
-                // GuestsIncluded = l.GuestsIncluded,
-                // ExtraPeople = l.ExtraPeople,
                 // MinimumNights = l.MinimumNights,
                 // MaximumNights = l.MaximumNights
             })
