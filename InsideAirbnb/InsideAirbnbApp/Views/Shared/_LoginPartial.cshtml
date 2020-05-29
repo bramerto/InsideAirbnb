@@ -1,5 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Authentication.AzureADB2C.UI
 @using Microsoft.Extensions.Options
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
 @inject IOptionsMonitor<AzureADB2COptions> AzureAdb2COptions
 
 @{ var options = AzureAdb2COptions.Get(AzureADB2CDefaults.AuthenticationScheme); }
@@ -7,6 +9,13 @@
 <ul class="navbar-nav">
     @if (User.Identity.IsAuthenticated)
     {
+        @if ((await AuthorizationService.AuthorizeAsync(User, "Admin")).Succeeded)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Admin</a>
+            </li>
+        }
+
         @if (!string.IsNullOrEmpty(options.EditProfilePolicyId))
         {
             <li class="nav-item">
