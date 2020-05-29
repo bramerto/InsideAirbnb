@@ -78,7 +78,6 @@ namespace InsideAirbnbApp.Repositories
                 // MinimumNights = l.MinimumNights,
                 // MaximumNights = l.MaximumNights
             })
-                .Take(100)
                 .AsNoTracking();
         }
     }
