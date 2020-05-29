@@ -9,7 +9,7 @@ namespace InsideAirbnbApp.Controllers
     public class AdminController : Controller
     {
         [Authorize (Policy = "Admin")]
-        public ActionResult Index()
+        public IActionResult Index()
         {
             var lstModel = new List<DefaultChartViewModel>();
             

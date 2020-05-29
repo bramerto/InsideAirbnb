@@ -20,9 +20,9 @@ namespace InsideAirbnbApp.Controllers
             _cache = cache;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _repo.All().ToListAsync());
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

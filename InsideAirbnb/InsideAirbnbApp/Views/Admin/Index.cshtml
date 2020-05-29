@@ -1,7 +1,7 @@
 ﻿@model List<InsideAirbnbApp.ViewModels.DefaultChartViewModel>
 @using System.Text.Json
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Admin panel";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var Xlabels = JsonSerializer.Serialize(Model.Select(x => x.name).ToList());
