@@ -1,10 +1,8 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using InsideAirbnbApp.Geo;
 using Microsoft.AspNetCore.Mvc;
 using InsideAirbnbApp.Repositories;
 using InsideAirbnbApp.ViewModels;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 
 namespace InsideAirbnbApp.Controllers.Api
@@ -25,26 +23,7 @@ namespace InsideAirbnbApp.Controllers.Api
         [HttpGet]
         public async Task<string> GetListings()
         {
-            var listings = _repo.All();
-
-            var geoPoints = new GeoJson
-            {
-                type = "FeatureCollection",
-                features = await listings.Select(l => new Feature
-                    {
-                        type = "Feature",
-                        properties = new Properties
-                        {
-                            id = l.Id
-                        },
-                        geometry = new Geometry
-                        {
-                            type = "Point",
-                            coordinates = new[] { l.Longitude??0, l.Latitude ?? 0, 0 }
-                        }
-                    }
-                ).ToListAsync()
-            };
+            var geoPoints = await GeoJson.Create(_repo.All());
             
             return Newtonsoft.Json.JsonConvert.SerializeObject(geoPoints);
         }
