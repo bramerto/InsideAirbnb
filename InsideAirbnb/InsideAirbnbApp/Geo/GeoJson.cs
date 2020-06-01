@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using InsideAirbnbApp.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,9 @@ namespace InsideAirbnbApp.Geo
                         properties = new Properties
                         {
                             id = l.Id,
+                            neighbourhood = l.Neighbourhood,
+                            price = decimal.Parse(Regex.Replace(l.Price, @"[^\d.]", "")),
+                            reviewScore = l.ReviewScoresRating?? 0
                         },
                         geometry = new Geometry
                         {
@@ -47,6 +51,9 @@ namespace InsideAirbnbApp.Geo
     public class Properties
     {
         public int id;
+        public string neighbourhood;
+        public decimal price;
+        public int reviewScore;
     }
 
     public class Geometry

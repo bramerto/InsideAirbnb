@@ -14,8 +14,8 @@ map.on("load", async function () {
             method: "GET",
             dataType: "json"
         })
-        .done((value) => {
-            geoJson = value;
+        .done((data) => {
+            geoJson = data;
         });
 
     map.addSource("listings", {
@@ -72,7 +72,7 @@ map.on("load", async function () {
         filter: ["!", ["has", "point_count"]],
         paint: {
             'circle-color': "#11b4da",
-            'circle-radius': 3,
+            'circle-radius': 4,
             'circle-stroke-width': 1,
             'circle-stroke-color': "#fff"
         }
@@ -97,7 +97,7 @@ map.on("load", async function () {
         );
     });
 
-    map.on("click", "unclustered-point", async function (e) {
+    map.on("click", "unclustered-point", function (e) {
         var coordinates = e.features[0].geometry.coordinates.slice();
         var id = e.features[0].properties.id;
 
@@ -148,5 +148,38 @@ map.on("load", async function () {
     });
     map.on("mouseleave", "clusters", function () {
         map.getCanvas().style.cursor = "";
+    });
+
+    $("#submitFilter").on("click", (e) => {
+        e.preventDefault();
+
+        var minPrice = $("#minPriceFilter").val();
+        var maxPrice = $("#maxPriceFilter").val();
+        var neighbourhood = $("#neighbourhoodFilter").text();
+        var minReviewRate = $("#minReviewRateFilter").val();
+
+        var minPriceFilter = [">=", ["get", "price"], minPrice];
+        var maxPriceFilter = ["<=", ["get", "price"], maxPrice];
+        var neighbourhoodFilter = ["==", ["get", "neigbourhood"], neighbourhood];
+        var minReviewRateFilter = ["=>", ["get", "reviewScore"], minReviewRate];
+
+        var options = {
+            validate: false
+        }
+
+        map.setFilter("clusters", minPriceFilter, options);
+        map.setFilter("clusters", maxPriceFilter, options);
+//        map.setFilter("clusters", neighbourhoodFilter, options);
+//        map.setFilter("clusters", minReviewRateFilter, options);
+
+        map.setFilter("cluster-count", minPriceFilter, options);
+        map.setFilter("cluster-count", maxPriceFilter, options);
+//        map.setFilter("cluster-count", neighbourhoodFilter, options);
+//        map.setFilter("cluster-count", minReviewRateFilter, options);
+
+        map.setFilter("unclustered-point", minPriceFilter, options);
+        map.setFilter("unclustered-point", maxPriceFilter, options);
+//        map.setFilter("unclustered-point", neighbourhoodFilter, options);
+//        map.setFilter("unclustered-point", minReviewRateFilter, options);
     });
 });

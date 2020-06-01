@@ -12,28 +12,7 @@
         $("#neighbourhoodFilter").html(options);
     });
 
-    $("#submitFilter").on("click", (e) => {
-        e.preventDefault();
-
-        var minPrice = $("#minPriceFilter").val();
-        var maxPrice = $("#maxPriceFilter").val();
-        var neighbourhoodId = $("#neighbourhoodFilter").val();
-        var minReviews = $("#minReviewsFilter").val();
-        var maxReviews = $("#maxReviewsFilter").val();
-
-        $.ajax({
-            url: "api/listings",
-            method: "POST",
-            dataType: "json",
-            data: {
-                minPrice,
-                maxPrice,
-                neighbourhoodId,
-                minReviews,
-                maxReviews
-            }
-        }).done((data) => {
-            alert(JSON.stringify(data));
-        });
+    $("#minReviewRateFilter").on("input", () => {
+        $("#rangeIndicator").html($("#minReviewRateFilter").val());
     });
 });

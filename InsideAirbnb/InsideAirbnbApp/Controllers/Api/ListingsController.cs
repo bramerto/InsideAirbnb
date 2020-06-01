@@ -28,18 +28,6 @@ namespace InsideAirbnbApp.Controllers.Api
             return Newtonsoft.Json.JsonConvert.SerializeObject(geoPoints);
         }
 
-        [HttpPost]
-        public string GetFilteredListings()
-        {
-            var minPrice = Request.Form["minPrice"];
-            var maxPrice = Request.Form["maxPrice"];
-            var neighbourhoodId = Request.Form["neighbourhoodId"];
-            var minReviews = Request.Form["minReviews"];
-            var maxReviews = Request.Form["maxReviews"];
-
-            return Newtonsoft.Json.JsonConvert.SerializeObject(new { minPrice, maxPrice, neighbourhoodId, minReviews, maxReviews });
-        }
-
         [HttpGet("{id}")]
         public async Task<string> Details(int id)
         {

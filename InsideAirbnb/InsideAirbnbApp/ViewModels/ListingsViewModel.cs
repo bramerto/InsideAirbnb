@@ -13,6 +13,7 @@
         public decimal? Longitude { get; set; }
         public string SquareFeet { get; set; }
         public string Price { get; set; }
+        public int? ReviewScoresRating { get; set; }
         public string WeeklyPrice { get; set; }
         public string MonthlyPrice { get; set; }
         public string SecurityDeposit { get; set; }

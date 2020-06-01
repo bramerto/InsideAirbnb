@@ -20,16 +20,10 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="minReviewsFilter">Minimum aantal reviews</label>
-                <input type="number" name="minReviewsFilter" id="minReviewsFilter" class="form-control" value="0" />
+            <div class="form-group col-md-8">
+                <label for="minReviewRateFilter">Minimale review score: <b id="rangeIndicator">0</b></label>
+                <input type="range" name="minReviewRateFilter" id="minReviewRateFilter" class="form-control form-control-range" value="0" min="0" max="100" step="5" />
             </div>
-            <div class="form-group col-md-6">
-                <label for="maxReviewsFilter">Maximaal aantal reviews</label>
-                <input type="number" name="maxReviewsFilter" id="maxReviewsFilter" class="form-control" value="10000" />
-            </div>
-        </div>
-        <div class="form-row">
             <div class="form-group col-md-4">
                 <button type="button" id="submitFilter" class="btn btn-primary mb-2">Filter</button>
             </div>
