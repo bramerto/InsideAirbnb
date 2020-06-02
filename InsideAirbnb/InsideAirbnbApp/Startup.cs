@@ -44,6 +44,7 @@ namespace InsideAirbnbApp
             // Repository pattern
             services.AddScoped<IRepository<NeighbourhoodsViewModel>, NeighbourhoodsRepository>();
             services.AddScoped<IRepository<ListingsViewModel>, ListingsRepository>();
+            services.AddScoped<IRepository<CalendarViewModel>, CalendarRepository>();
 
             // Azure Active Directory B2C
             services.AddAuthentication(AzureADB2CDefaults.AuthenticationScheme).AddAzureADB2C(options => Configuration.Bind("AzureAdB2C", options));

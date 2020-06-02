@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using InsideAirbnbApp.Geo;
 using Microsoft.AspNetCore.Mvc;
 using InsideAirbnbApp.Repositories;
@@ -12,21 +13,30 @@ namespace InsideAirbnbApp.Controllers.Api
     [ApiController]
     public class ListingsController : ControllerBase
     {
-        private readonly IRepository<ListingsViewModel> _repo;
+        private readonly IRepository<ListingsViewModel> _listingsRepo;
+        private readonly IRepository<CalendarViewModel> _calendarRepo;
         private readonly IDistributedCache _cache;
 
-        public ListingsController(IRepository<ListingsViewModel> repo, IDistributedCache cache)
+        public ListingsController(IRepository<ListingsViewModel> listingsRepo, IRepository<CalendarViewModel> calendarRepo, IDistributedCache cache)
         {
-            _repo = repo;
+            _listingsRepo = listingsRepo;
+            _calendarRepo = calendarRepo;
             _cache = cache;
         }
 
         [HttpGet]
         public async Task<string> GetListings()
         {
-            var geoPoints = await GeoJson.Create(_repo.All());
+            var listings = _listingsRepo.All();
+            var calendar = _calendarRepo.All();
+            var geoPoints = await GeoJson.Create(listings);
+
+            var staysPerMonth = calendar.Count();
+            var collectionPerMonth = calendar.Sum(c => c.Price);
+
+            var response = new { geoJson = geoPoints, staysPerMonth, collectionPerMonth, totalLocations = listings.Count() };
             
-            return Newtonsoft.Json.JsonConvert.SerializeObject(geoPoints);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(response);
         }
 
         [HttpPost]
@@ -39,23 +49,30 @@ namespace InsideAirbnbApp.Controllers.Api
 
             //add validation
 
-            var listings = _repo.Filter(new Filter
+            var filter = new Filter
             {
                 minPrice = minPrice,
                 maxPrice = maxPrice,
                 neighbourhood = neighbourhood,
                 minReviewRate = minReviewRate
-            });
+            };
 
+            var listings = _listingsRepo.Filter(filter);
+            var calendar = _calendarRepo.Filter(filter);
+
+            var staysPerMonth = calendar.Count();
+            var collectionPerMonth = calendar.Sum(c => c.Price);
             var geoPoints = await GeoJson.Create(listings);
 
-            return Newtonsoft.Json.JsonConvert.SerializeObject(geoPoints);
+            var response = new { geoJson = geoPoints, staysPerMonth, collectionPerMonth, totalLocations = listings.Count() };
+
+            return Newtonsoft.Json.JsonConvert.SerializeObject(response);
         }
 
         [HttpGet("{id}")]
         public async Task<string> Details(int id)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(await _repo.Get(id));
+            return Newtonsoft.Json.JsonConvert.SerializeObject(await _listingsRepo.Get(id));
         }
     }
 }

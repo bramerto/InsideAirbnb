@@ -8,24 +8,25 @@ var map = new mapboxgl.Map({
     zoom: 11.2
 });
 
-map.on("load", async function () {
-    await $.ajax({
-            url: "/api/listings",
-            method: "GET",
-            dataType: "json"
+var formatter = new Intl.NumberFormat("nl-NL", {
+    style: "currency",
+    currency: "USD"
+});
 
-        })
-        .done((data) => {
-            geoJson = data;
+map.on("load", function () {
 
-        })
-        .fail((error) => {
-            alert("Er is iets misgegaan met het ophalen van de initiële mapdata.");
-        });
+    /* MAP INITIALISE */
+    $.ajax({
+        url: "/api/listings",
+        method: "GET",
+        dataType: "json"
+    })
+    .done((data) => setMapData(data))
+    .fail((error) => alert("Er is iets misgegaan met het ophalen van de initiële mapdata."));
 
-    map.addSource("listings", {
+     map.addSource("listings", {
         type: "geojson",
-        data: geoJson,
+        data: null,
         cluster: true,
         clusterMaxZoom: 13, // Max zoom to cluster points on
         clusterRadius: 100 // Radius of each cluster when clustering points (defaults to 50)
@@ -83,7 +84,7 @@ map.on("load", async function () {
         }
     });
 
-    // inspect a cluster on click
+    /* EVENTS */
     map.on("click", "clusters", function (e) {
         var features = map.queryRenderedFeatures(e.point, {
             layers: ["clusters"]
@@ -113,27 +114,25 @@ map.on("load", async function () {
                 url: "/api/listings/" + id,
                 method: "GET",
                 dataType: "json"
-
-            }).done((value) => {
-                $('#locationId').val(value.Id);
-                $('#locationUrl').val(value.ListingUrl);
-                $('#locationName').val(value.Name);
-                $('#locationReviewScoresRating').val(value.ReviewScoresRating + "/100");
-                $('#locationDescription').val(value.Description);
-                $('#locationNeighbourhood').val(value.Neighbourhood);
-                $('#locationZipcode').val(value.Zipcode);
-                $('#locationSquareFeet').val(value.SquareFeet);
-                $('#locationPrice').val(value.Price);
-                $('#locationWeeklyPrice').val(value.WeeklyPrice);
-                $('#locationMonthlyPrice').val(value.MonthlyPrice);
-                $('#locationSecurityDeposit').val(value.SecurityDeposit);
-                $('#locationCleaningFee').val(value.CleaningFee);
-                $('#locationMinimumNights').val(value.MinimumNights);
-                $('#locationMaximumNights').val(value.MaximumNights);
-
-            }).fail((error) => {
-                alert("Er is iets misgegaan met het ophalen van een listing.");
-            });
+            })
+            .done((value) => {
+                $("#locationId").val(value.Id);
+                $("#locationUrl").val(value.ListingUrl);
+                $("#locationName").val(value.Name);
+                $("#locationReviewScoresRating").val(value.ReviewScoresRating + "/100");
+                $("#locationDescription").val(value.Description);
+                $("#locationNeighbourhood").val(value.Neighbourhood);
+                $("#locationZipcode").val(value.Zipcode);
+                $("#locationSquareFeet").val(value.SquareFeet);
+                $("#locationPrice").val(value.Price);
+                $("#locationWeeklyPrice").val(value.WeeklyPrice);
+                $("#locationMonthlyPrice").val(value.MonthlyPrice);
+                $("#locationSecurityDeposit").val(value.SecurityDeposit);
+                $("#locationCleaningFee").val(value.CleaningFee);
+                $("#locationMinimumNights").val(value.MinimumNights);
+                $("#locationMaximumNights").val(value.MaximumNights);
+            })
+            .fail((error) => alert("Er is iets misgegaan met het ophalen van een listing."));
         }
 
         // Ensure that if the map is zoomed out such that
@@ -176,45 +175,17 @@ map.on("load", async function () {
                 neighbourhood,
                 minReviewRate
             }
-
-        }).done((data) => {
-            map.getSource("listings").setData(data);
-
-        }).fail((error) => {
-            alert("Er is iets misgegaan met filteren.");
-        });
+        })
+        .done((data) => setMapData(data))
+        .fail((error) => alert("Er is iets misgegaan met filteren."));
     });
 
-//    $("#submitFilter").on("click", (e) => {
-//        e.preventDefault();
-//
-//        var minPrice = $("#minPriceFilter").val();
-//        var maxPrice = $("#maxPriceFilter").val();
-//        var neighbourhood = $("#neighbourhoodFilter").text();
-//        var minReviewRate = $("#minReviewRateFilter").val();
-//
-//        var minPriceFilter = [">=", ["get", "price"], minPrice];
-//        var maxPriceFilter = ["<=", ["get", "price"], maxPrice];
-//        var neighbourhoodFilter = ["==", ["get", "neigbourhood"], neighbourhood];
-//        var minReviewRateFilter = ["=>", ["get", "reviewScore"], minReviewRate];
-//
-//        var options = {
-//            validate: false
-//        }
-//
-//        map.setFilter("clusters", minPriceFilter, options);
-//        map.setFilter("clusters", maxPriceFilter, options);
-//        map.setFilter("clusters", neighbourhoodFilter, options);
-//        map.setFilter("clusters", minReviewRateFilter, options);
-//
-//        map.setFilter("cluster-count", minPriceFilter, options);
-//        map.setFilter("cluster-count", maxPriceFilter, options);
-//        map.setFilter("cluster-count", neighbourhoodFilter, options);
-//        map.setFilter("cluster-count", minReviewRateFilter, options);
-//
-//        map.setFilter("unclustered-point", minPriceFilter, options);
-//        map.setFilter("unclustered-point", maxPriceFilter, options);
-//        map.setFilter("unclustered-point", neighbourhoodFilter, options);
-//        map.setFilter("unclustered-point", minReviewRateFilter, options);
-//    });
+    /* FUNCTIONS */
+    function setMapData(data) {
+        map.getSource("listings").setData(data.geoJson);
+
+        $("#totalLocations").html(data.totalLocations);
+        $("#staysPerMonth").html(data.staysPerMonth);
+        $("#collectionPerMonth").html(formatter.format(data.collectionPerMonth).replace("US", "").replace(/\s/g, ""));
+    }
 });

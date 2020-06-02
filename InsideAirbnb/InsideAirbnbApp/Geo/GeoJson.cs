@@ -25,7 +25,7 @@ namespace InsideAirbnbApp.Geo
                         {
                             id = l.Id,
                             neighbourhood = l.Neighbourhood,
-                            price = decimal.Parse(Regex.Replace(l.Price, @"[^\d.]", "")),
+                            price = l.Price ?? 0,
                             reviewScore = l.ReviewScoresRating?? 0
                         },
                         geometry = new Geometry
