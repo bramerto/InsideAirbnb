@@ -1,12 +1,12 @@
 # NotS-WAPP
-InsideAirbnb app for NotS Windows Applications class assignment (February - June 2020)
+InsideAirbnb app for NotS Windows Applications class assignment (April - June 2020)
 
 ## Use Cases
 - [X] Registeren en inloggen. (must)
-- [ ] Filter op prijs. (must)
+- [X] Filter op prijs. (must)
 - [X] Filter op buurt. (must)
 - [X] Filter op review. (must)
-- [ ] Locaties van zoekresultaat zichtbaar op kaart. (could)
+- [X] Locaties van zoekresultaat zichtbaar op kaart. (could)
 - [X] Kaart is clickable, details rechts op pagina, maakt gebruik van de mapbox API. (must)
 - [X] Layout idem als insideairbnb.com. (could)
 - [ ] Details per item waarop gefiltered is: #overnachtingen, #opbrengst in de maand. (must)
