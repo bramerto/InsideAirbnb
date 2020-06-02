@@ -87,7 +87,7 @@ namespace InsideAirbnbApp.Repositories
 
             if (!filter.neighbourhood.Equals("Selecteer..."))
             {
-                query = query.Where(j => j.listing.NeighbourhoodCleansed.Equals(filter.neighbourhood));
+                query = query.Where(j => j.summary.Neighbourhood.Equals(filter.neighbourhood));
             }
 
             if (filter.minReviewRate != 0)
@@ -101,7 +101,7 @@ namespace InsideAirbnbApp.Repositories
                 // ListingUrl = j.listing.ListingUrl,
                 // Name = j.listing.Name,
                 // Description = j.listing.Description,
-                Neighbourhood = j.listing.NeighbourhoodCleansed,
+                Neighbourhood = j.summary.Neighbourhood,
                 // Zipcode = j.listing.Zipcode,
                 Latitude = j.listing.Latitude,
                 Longitude = j.listing.Longitude,
