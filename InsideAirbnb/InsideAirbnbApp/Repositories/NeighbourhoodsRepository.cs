@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using InsideAirbnbApp.Models;
+using InsideAirbnbApp.Util;
 using InsideAirbnbApp.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,6 +34,11 @@ namespace InsideAirbnbApp.Repositories
                 Id = n.Id
             })
                 .AsNoTracking();
+        }
+
+        public IQueryable<NeighbourhoodsViewModel> Filter(Filter filter)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

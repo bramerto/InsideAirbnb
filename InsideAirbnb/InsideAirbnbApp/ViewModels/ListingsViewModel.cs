@@ -5,7 +5,6 @@
         public int Id { get; set; }
         public string ListingUrl { get; set; }
         public string Name { get; set; }
-        public string Summary { get; set; }
         public string Description { get; set; }
         public string Neighbourhood { get; set; }
         public string Zipcode { get; set; }

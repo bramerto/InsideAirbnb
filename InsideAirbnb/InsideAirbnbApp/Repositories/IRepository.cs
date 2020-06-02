@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using InsideAirbnbApp.Util;
 
 namespace InsideAirbnbApp.Repositories
 {
@@ -8,5 +9,6 @@ namespace InsideAirbnbApp.Repositories
     {
         public Task<T> Get(int id);
         public IQueryable<T> All();
+        public IQueryable<T> Filter(Filter filters);
     }
 }

@@ -20,17 +20,19 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group col-md-8">
+            <div class="form-group col-md-12">
                 <label for="minReviewRateFilter">Minimale review score: <b id="rangeIndicator">0</b></label>
                 <input type="range" name="minReviewRateFilter" id="minReviewRateFilter" class="form-control form-control-range" value="0" min="0" max="100" step="5" />
             </div>
-            <div class="form-group col-md-4">
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-12">
                 <button type="button" id="submitFilter" class="btn btn-primary mb-2">Filter</button>
             </div>
         </div>
         <hr />
         <div class="form-row">
-            <h3><b>Informatie over geselecteerde locatie</b></h3>
+            <h3><b>Informatie geselecteerde locatie</b></h3>
         </div>
         <div class="form-row">
             <div class="form-group col-md-12">
@@ -42,8 +44,8 @@
                 <input type="text" name="locationName" id="locationName" class="form-control" value="" disabled />
             </div>
             <div class="form-group col-md-12">
-                <label for="locationSummary">Samenvatting</label>
-                <textarea name="locationSummary" id="locationSummary" class="form-control" value="" disabled ></textarea>
+                <label for="locationReviewScoresRating">Beoordeling</label>
+                <input type="text" name="locationReviewScoresRating" id="locationReviewScoresRating" class="form-control" value="" disabled />
             </div>
             <div class="form-group col-md-12">
                 <label for="locationDescription">Beschrijving</label>

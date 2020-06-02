@@ -13,9 +13,14 @@ map.on("load", async function () {
             url: "/api/listings",
             method: "GET",
             dataType: "json"
+
         })
         .done((data) => {
             geoJson = data;
+
+        })
+        .fail((error) => {
+            alert("Er is iets misgegaan met het ophalen van de initiële mapdata.");
         });
 
     map.addSource("listings", {
@@ -108,12 +113,12 @@ map.on("load", async function () {
                 url: "/api/listings/" + id,
                 method: "GET",
                 dataType: "json"
-            }).done((value) => {
 
+            }).done((value) => {
                 $('#locationId').val(value.Id);
                 $('#locationUrl').val(value.ListingUrl);
                 $('#locationName').val(value.Name);
-                $('#locationSummary').val(value.Summary);
+                $('#locationReviewScoresRating').val(value.ReviewScoresRating + "/100");
                 $('#locationDescription').val(value.Description);
                 $('#locationNeighbourhood').val(value.Neighbourhood);
                 $('#locationZipcode').val(value.Zipcode);
@@ -125,6 +130,9 @@ map.on("load", async function () {
                 $('#locationCleaningFee').val(value.CleaningFee);
                 $('#locationMinimumNights').val(value.MinimumNights);
                 $('#locationMaximumNights').val(value.MaximumNights);
+
+            }).fail((error) => {
+                alert("Er is iets misgegaan met het ophalen van een listing.");
             });
         }
 
@@ -150,36 +158,63 @@ map.on("load", async function () {
         map.getCanvas().style.cursor = "";
     });
 
-    $("#submitFilter").on("click", (e) => {
-        e.preventDefault();
-
+    $("#submitFilter").on("click", async (e) => {
         var minPrice = $("#minPriceFilter").val();
         var maxPrice = $("#maxPriceFilter").val();
-        var neighbourhood = $("#neighbourhoodFilter").text();
+        var neighbourhood = $("#neighbourhoodFilter option:selected").text();
         var minReviewRate = $("#minReviewRateFilter").val();
 
-        var minPriceFilter = [">=", ["get", "price"], minPrice];
-        var maxPriceFilter = ["<=", ["get", "price"], maxPrice];
-        var neighbourhoodFilter = ["==", ["get", "neigbourhood"], neighbourhood];
-        var minReviewRateFilter = ["=>", ["get", "reviewScore"], minReviewRate];
+        //add validation
 
-        var options = {
-            validate: false
-        }
+        $.ajax({
+            url: "api/listings",
+            method: "POST",
+            dataType: "json",
+            data: {
+                minPrice,
+                maxPrice,
+                neighbourhood,
+                minReviewRate
+            }
 
-        map.setFilter("clusters", minPriceFilter, options);
-        map.setFilter("clusters", maxPriceFilter, options);
+        }).done((data) => {
+            map.getSource("listings").setData(data);
+
+        }).fail((error) => {
+            alert("Er is iets misgegaan met filteren.");
+        });
+    });
+
+//    $("#submitFilter").on("click", (e) => {
+//        e.preventDefault();
+//
+//        var minPrice = $("#minPriceFilter").val();
+//        var maxPrice = $("#maxPriceFilter").val();
+//        var neighbourhood = $("#neighbourhoodFilter").text();
+//        var minReviewRate = $("#minReviewRateFilter").val();
+//
+//        var minPriceFilter = [">=", ["get", "price"], minPrice];
+//        var maxPriceFilter = ["<=", ["get", "price"], maxPrice];
+//        var neighbourhoodFilter = ["==", ["get", "neigbourhood"], neighbourhood];
+//        var minReviewRateFilter = ["=>", ["get", "reviewScore"], minReviewRate];
+//
+//        var options = {
+//            validate: false
+//        }
+//
+//        map.setFilter("clusters", minPriceFilter, options);
+//        map.setFilter("clusters", maxPriceFilter, options);
 //        map.setFilter("clusters", neighbourhoodFilter, options);
 //        map.setFilter("clusters", minReviewRateFilter, options);
-
-        map.setFilter("cluster-count", minPriceFilter, options);
-        map.setFilter("cluster-count", maxPriceFilter, options);
+//
+//        map.setFilter("cluster-count", minPriceFilter, options);
+//        map.setFilter("cluster-count", maxPriceFilter, options);
 //        map.setFilter("cluster-count", neighbourhoodFilter, options);
 //        map.setFilter("cluster-count", minReviewRateFilter, options);
-
-        map.setFilter("unclustered-point", minPriceFilter, options);
-        map.setFilter("unclustered-point", maxPriceFilter, options);
+//
+//        map.setFilter("unclustered-point", minPriceFilter, options);
+//        map.setFilter("unclustered-point", maxPriceFilter, options);
 //        map.setFilter("unclustered-point", neighbourhoodFilter, options);
 //        map.setFilter("unclustered-point", minReviewRateFilter, options);
-    });
+//    });
 });
