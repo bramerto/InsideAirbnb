@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "AirBnb"
+    },
+    "redis1": {
+      "type": "redis",
+      "connectionId": "Redis"
+    }
+  }
+}

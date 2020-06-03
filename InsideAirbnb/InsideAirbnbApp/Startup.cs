@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace InsideAirbnbApp
 {
@@ -36,10 +37,6 @@ namespace InsideAirbnbApp
 
             // Database and Redis cache server
             services.AddDbContext<AirbnbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AirBnb")));
-            services.AddStackExchangeRedisCache(options => {
-                options.Configuration = Configuration.GetConnectionString("Redis");
-                options.InstanceName = "InsideAirbnbRedis";
-            });
 
             // Repository pattern
             services.AddScoped<IRepository<NeighbourhoodsViewModel>, NeighbourhoodsRepository>();
@@ -58,6 +55,10 @@ namespace InsideAirbnbApp
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddMvc();
+            services.AddDistributedRedisCache(option =>
+            {
+                option.Configuration = Configuration["ConnectionStrings:Redis"];
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
