@@ -1,4 +1,5 @@
-﻿<div id="mapcontrols-container">
+﻿@model IEnumerable<InsideAirbnbApp.ViewModels.NeighbourhoodsViewModel>
+<div id="mapcontrols-container">
     <div class="col-md-12">
         <div class="form-row">
             <h3><b>Filter map</b></h3>
@@ -16,7 +17,13 @@
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="neighbourhoodFilter">Buurt</label>
-                <select class="form-control" id="neighbourhoodFilter"></select>
+                <select class="form-control" id="neighbourhoodFilter">
+                    <option value="0">Selecteer...</option>
+                    @foreach (var item in Model)
+                    {
+                        <option value="@item.Id">@item.Neighbourhood</option>
+                    }
+                </select>
             </div>
         </div>
         <div class="form-row">
