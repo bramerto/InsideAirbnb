@@ -21,7 +21,7 @@ namespace InsideAirbnbApp.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<string> Index()
+        public async Task<string> GetNeigbourhoods()
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(await _repo.All().ToListAsync());
         }

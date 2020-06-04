@@ -67,9 +67,13 @@ namespace InsideAirbnbApp
             // Increases performance by compression
             app.UseResponseCompression();
 
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseMiniProfiler();
             }
             else
             {
@@ -92,11 +96,6 @@ namespace InsideAirbnbApp
 
                 await next();
             });
-
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
-            app.UseMiniProfiler();
 
             app.UseRouting();
 
