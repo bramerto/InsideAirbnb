@@ -1,3 +1,6 @@
+using System;
+using System.Globalization;
+using System.Text;
 using InsideAirbnbApp.Models;
 using InsideAirbnbApp.Repositories;
 using InsideAirbnbApp.ViewModels;
@@ -6,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.AzureADB2C.UI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -36,6 +40,10 @@ namespace InsideAirbnbApp
 
             // Database and Redis cache server
             services.AddDbContext<AirbnbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AirBnb")));
+            services.AddStackExchangeRedisCache(options => {
+                options.Configuration = Configuration.GetConnectionString("Redis");
+                options.InstanceName = "InsideAirbnb";
+            });
 
             // Repository pattern
             services.AddScoped<IRepository<NeighbourhoodsViewModel>, NeighbourhoodsRepository>();
@@ -54,14 +62,10 @@ namespace InsideAirbnbApp
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddMvc();
-            services.AddDistributedRedisCache(option =>
-            {
-                option.Configuration = Configuration["ConnectionStrings:Redis"];
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime lifetime, IDistributedCache cache)
         {
             // Increases performance by compression
             app.UseResponseCompression();
@@ -80,6 +84,16 @@ namespace InsideAirbnbApp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            // Set cache time
+            // Source: https://docs.microsoft.com/en-us/aspnet/core/performance/caching/distributed?view=aspnetcore-3.1
+            lifetime.ApplicationStarted.Register(() =>
+            {
+                var currentTimeUtc = DateTime.UtcNow.ToString(CultureInfo.CurrentCulture);
+                var encodedCurrentTimeUtc = Encoding.UTF8.GetBytes(currentTimeUtc);
+                var options = new DistributedCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(60));
+                cache.Set("cachedTimeUTC", encodedCurrentTimeUtc, options);
+            });
 
             //Block HTTP headers for security
             app.Use(async (context, next) =>
