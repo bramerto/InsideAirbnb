@@ -40,5 +40,10 @@ namespace InsideAirbnbApp.Repositories
         {
             throw new System.NotImplementedException();
         }
+
+        public IQueryable<NeighbourhoodsViewModel> Join(IQueryable<ListingsViewModel> query)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -58,7 +58,7 @@ namespace InsideAirbnbApp.Controllers.Api
             };
 
             var listings = _listingsRepo.Filter(filter);
-            var calendar = _calendarRepo.Filter(filter);
+            var calendar = _calendarRepo.Join(listings);
 
             var staysPerMonth = calendar.Count();
             var collectionPerMonth = calendar.Sum(c => c.Price);

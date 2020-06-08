@@ -78,5 +78,10 @@ namespace InsideAirbnbApp.Repositories
 
             return query.AsNoTracking();
         }
+
+        public IQueryable<ListingsViewModel> Join(IQueryable<ListingsViewModel> query)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
