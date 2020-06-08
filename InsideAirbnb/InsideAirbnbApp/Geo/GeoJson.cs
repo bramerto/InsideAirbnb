@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using InsideAirbnbApp.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -21,10 +20,7 @@ namespace InsideAirbnbApp.Geo
                 features = await listings.Select(l => new Feature
                     {
                         type = "Feature",
-                        properties = new Properties
-                        {
-                            id = l.Id
-                        },
+                        properties = new Properties { id = l.Id },
                         geometry = new Geometry
                         {
                             type = "Point",
@@ -46,9 +42,6 @@ namespace InsideAirbnbApp.Geo
     public class Properties
     {
         public int id;
-        public string neighbourhood;
-        public decimal price;
-        public int reviewScore;
     }
 
     public class Geometry

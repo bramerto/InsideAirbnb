@@ -18,17 +18,19 @@
             <div class="form-group col-md-12">
                 <label for="neighbourhoodFilter">Buurt</label>
                 <select class="form-control" id="neighbourhoodFilter">
-                    <option value="0">Selecteer...</option>
-                    @foreach (var item in Model)
-                    {
-                        <option value="@item.Id">@item.Neighbourhood</option>
-                    }
+                    <distributed-cache name="NeighbourhoodList" expires-after="@TimeSpan.FromMinutes(5)" expires-sliding="TimeSpan.FromMinutes(1)">
+                        <option value="0">Selecteer...</option>
+                        @foreach (var item in Model)
+                        {
+                            <option value="@item.Id">@item.Neighbourhood</option>
+                        }
+                    </distributed-cache>
                 </select>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-12">
-                <label for="minReviewRateFilter">Minimale review score: <b id="rangeIndicator">0</b></label>
+                <label for="minReviewRateFilter">Minimale Review Score: <b id="rangeIndicator">0</b></label>
                 <input type="range" name="minReviewRateFilter" id="minReviewRateFilter" class="form-control form-control-range" value="0" min="0" max="100" step="5" />
             </div>
         </div>

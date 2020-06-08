@@ -4,6 +4,7 @@ using InsideAirbnbApp.Geo;
 using Microsoft.AspNetCore.Mvc;
 using InsideAirbnbApp.Repositories;
 using InsideAirbnbApp.Util;
+using InsideAirbnbApp.Validators;
 using InsideAirbnbApp.ViewModels;
 using Microsoft.Extensions.Caching.Distributed;
 
@@ -15,18 +16,24 @@ namespace InsideAirbnbApp.Controllers.Api
     {
         private readonly IRepository<ListingsViewModel> _listingsRepo;
         private readonly IRepository<CalendarViewModel> _calendarRepo;
-        private readonly IDistributedCache _cache;
+        private readonly CacheHelper _cache;
+        private readonly FilterValidator _validator;
 
         public ListingsController(IRepository<ListingsViewModel> listingsRepo, IRepository<CalendarViewModel> calendarRepo, IDistributedCache cache)
         {
             _listingsRepo = listingsRepo;
             _calendarRepo = calendarRepo;
-            _cache = cache;
+            _cache = new CacheHelper(cache);
+            _validator = new FilterValidator();
         }
 
         [HttpGet]
-        public async Task<string> GetListings()
+        public async Task<IActionResult> GetListings()
         {
+            const string key = "UnfilteredMapResponse";
+            var cacheItem = await _cache.Get(key);
+            if (cacheItem != null) return Ok(cacheItem);
+
             var listings = _listingsRepo.All();
             var calendar = _calendarRepo.All();
             var geoJson = await GeoJson.Create(listings);
@@ -35,28 +42,47 @@ namespace InsideAirbnbApp.Controllers.Api
             var staysPerMonth = calendar.Count();
             var collectionPerMonth = calendar.Sum(c => c.Price);
 
-            var response = new { geoJson, staysPerMonth, collectionPerMonth, totalLocations };
+            var response = Newtonsoft.Json.JsonConvert.SerializeObject(
+                new { geoJson, staysPerMonth, collectionPerMonth, totalLocations }
+            );
+
+            _cache.Set(key, response);
             
-            return Newtonsoft.Json.JsonConvert.SerializeObject(response);
+            return Ok(response);
         }
 
         [HttpPost]
-        public async Task<string> GetFilteredListings()
+        public async Task<IActionResult> GetFilteredListings()
         {
-            var minPrice = int.Parse(Request.Form["minPrice"].ToString());
-            var maxPrice = int.Parse(Request.Form["maxPrice"].ToString());
-            var neighbourhood = int.Parse(Request.Form["neighbourhood"].ToString());
-            var minReviewRate = int.Parse(Request.Form["minReviewRate"].ToString());
+            var filterRequest = new FilterRequest()
+            {
+                minPrice = Request.Form["minPrice"].ToString(),
+                maxPrice = Request.Form["maxPrice"].ToString(),
+                neighbourhood = Request.Form["neighbourhood"].ToString(),
+                minReviewRate = Request.Form["minReviewRate"].ToString(),
+            };
 
-            //add validation
+            var result = _validator.Validate(filterRequest);
+
+            if (result.IsValid == false)
+            {
+                return BadRequest(Newtonsoft.Json.JsonConvert.SerializeObject(
+                    new { errors = result.Errors.Select(e => e.ErrorMessage).ToList() })
+                );
+            }
 
             var filter = new Filter
             {
-                minPrice = minPrice,
-                maxPrice = maxPrice,
-                neighbourhood = neighbourhood,
-                minReviewRate = minReviewRate
+                minPrice = int.Parse(filterRequest.minPrice),
+                maxPrice = int.Parse(filterRequest.maxPrice),
+                neighbourhood = int.Parse(filterRequest.neighbourhood),
+                minReviewRate = int.Parse(filterRequest.minReviewRate)
             };
+
+            var key = $"FilteredMapResponse-{filter.minPrice}-{filter.maxPrice}-{filter.neighbourhood}-{filter.minReviewRate}";
+
+            var cacheItem = await _cache.Get(key);
+            if (cacheItem != null) return Ok(cacheItem);
 
             var listings = _listingsRepo.Filter(filter);
             var calendar = _calendarRepo.Join(listings);
@@ -66,9 +92,13 @@ namespace InsideAirbnbApp.Controllers.Api
             var staysPerMonth = calendar.Count();
             var collectionPerMonth = calendar.Sum(c => c.Price);
 
-            var response = new { geoJson, staysPerMonth, collectionPerMonth, totalLocations };
+            var response = Newtonsoft.Json.JsonConvert.SerializeObject(
+                new { geoJson, staysPerMonth, collectionPerMonth, totalLocations }
+            );
 
-            return Newtonsoft.Json.JsonConvert.SerializeObject(response);
+            _cache.Set(key, response);
+
+            return Ok(response);
         }
 
         [HttpGet("{id}")]

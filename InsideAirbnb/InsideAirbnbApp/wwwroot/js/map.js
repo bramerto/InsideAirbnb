@@ -175,7 +175,14 @@ map.on("load", function () {
             }
         })
         .done((data) => setMapData(data))
-        .fail((error) => alert("Er is iets misgegaan met filteren."));
+        .fail((error) => {
+            var message = "";
+            for (const errorMessage of error.responseJSON.errors.values()) {
+                console.log(errorMessage);
+                message += errorMessage + "\n";
+            }
+            alert(message);
+        });
     });
 
     /* FUNCTIONS */

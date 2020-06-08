@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using InsideAirbnbApp.Repositories;
+using InsideAirbnbApp.Util;
 using InsideAirbnbApp.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
@@ -12,18 +13,23 @@ namespace InsideAirbnbApp.Controllers.Api
     public class NeighbourhoodsController : ControllerBase
     {
         private readonly IRepository<NeighbourhoodsViewModel> _repo;
-        private readonly IDistributedCache _cache;
+        private readonly CacheHelper _cache;
 
         public NeighbourhoodsController(IRepository<NeighbourhoodsViewModel> repo, IDistributedCache cache)
         {
             _repo = repo;
-            _cache = cache;
+            _cache = new CacheHelper(cache);
         }
 
         [HttpGet]
         public async Task<string> GetNeigbourhoods()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(await _repo.All().ToListAsync());
+            var cacheItem = await _cache.Get("NeighbourhoodList");
+            if (cacheItem != null) return cacheItem;
+            var response = Newtonsoft.Json.JsonConvert.SerializeObject(await _repo.All().ToListAsync());
+
+            _cache.Set("NeighbourhoodList", response);
+            return response;
         }
 
         [HttpGet("{id}")]

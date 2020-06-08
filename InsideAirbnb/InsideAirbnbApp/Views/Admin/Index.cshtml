@@ -4,8 +4,8 @@
     ViewData["Title"] = "Admin panel";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    var Xlabels = JsonSerializer.Serialize(Model.Select(x => x.name).ToList());
-    var YValues = JsonSerializer.Serialize(Model.Select(x => x.value).ToList());
+    var Xlabels = JsonSerializer.Serialize(Model.Select(x => x.Name).ToList());
+    var YValues = JsonSerializer.Serialize(Model.Select(x => x.Value).ToList());
 }
 
 <div class="chart-container">

@@ -12,12 +12,10 @@ namespace InsideAirbnbApp.Controllers
     public class HomeController : Controller
     {
         private readonly IRepository<NeighbourhoodsViewModel> _repo;
-        private readonly IDistributedCache _cache;
 
-        public HomeController(IRepository<NeighbourhoodsViewModel> repo, IDistributedCache cache)
+        public HomeController(IRepository<NeighbourhoodsViewModel> repo)
         {
             _repo = repo;
-            _cache = cache;
         }
 
         public async Task<IActionResult> Index()
