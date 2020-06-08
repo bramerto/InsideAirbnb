@@ -8,10 +8,8 @@ var map = new mapboxgl.Map({
     zoom: 11.2
 });
 
-var formatter = new Intl.NumberFormat("nl-NL", {
-    style: "currency",
-    currency: "USD"
-});
+var currencyFormatter = new Intl.NumberFormat("nl-NL", { style: "currency", currency: "USD" });
+var numberFormatter = new Intl.NumberFormat("nl-NL");
 
 map.on("load", function () {
 
@@ -124,11 +122,11 @@ map.on("load", function () {
                 $("#locationNeighbourhood").val(value.Neighbourhood);
                 $("#locationZipcode").val(value.Zipcode);
                 $("#locationSquareFeet").val(value.SquareFeet);
-                $("#locationPrice").val(value.Price);
-                $("#locationWeeklyPrice").val(value.WeeklyPrice);
-                $("#locationMonthlyPrice").val(value.MonthlyPrice);
-                $("#locationSecurityDeposit").val(value.SecurityDeposit);
-                $("#locationCleaningFee").val(value.CleaningFee);
+                $("#locationPrice").val(formatUsd(value.Price)); 
+                $("#locationWeeklyPrice").val(formatUsd(value.WeeklyPrice));
+                $("#locationMonthlyPrice").val(formatUsd(value.MonthlyPrice));
+                $("#locationSecurityDeposit").val(formatUsd(value.SecurityDeposit));
+                $("#locationCleaningFee").val(formatUsd(value.CleaningFee));
                 $("#locationMinimumNights").val(value.MinimumNights);
                 $("#locationMaximumNights").val(value.MaximumNights);
             })
@@ -184,8 +182,12 @@ map.on("load", function () {
     function setMapData(data) {
         map.getSource("listings").setData(data.geoJson);
 
-        $("#totalLocations").html(data.totalLocations);
-        $("#staysPerMonth").html(data.staysPerMonth);
-        $("#collectionPerMonth").html(formatter.format(data.collectionPerMonth).replace("US", "").replace(/\s/g, ""));
+        $("#totalLocations").html(numberFormatter.format(data.totalLocations));
+        $("#staysPerMonth").html(numberFormatter.format(data.staysPerMonth));
+        $("#collectionPerMonth").html(formatUsd(data.collectionPerMonth));
+    }
+
+    function formatUsd(value) {
+        return currencyFormatter.format(value).replace("US", "").replace(/\s/g, "");
     }
 });
