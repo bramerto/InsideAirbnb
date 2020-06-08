@@ -13,10 +13,10 @@
         public string SquareFeet { get; set; }
         public int? Price { get; set; }
         public int? ReviewScoresRating { get; set; }
-        public string WeeklyPrice { get; set; }
-        public string MonthlyPrice { get; set; }
-        public string SecurityDeposit { get; set; }
-        public string CleaningFee { get; set; }
+        public int WeeklyPrice { get; set; }
+        public int MonthlyPrice { get; set; }
+        public int SecurityDeposit { get; set; }
+        public int CleaningFee { get; set; }
         public int? MinimumNights { get; set; }
         public int? MaximumNights { get; set; }
     }

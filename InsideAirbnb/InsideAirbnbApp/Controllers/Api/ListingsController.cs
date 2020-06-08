@@ -29,12 +29,13 @@ namespace InsideAirbnbApp.Controllers.Api
         {
             var listings = _listingsRepo.All();
             var calendar = _calendarRepo.All();
-            var geoPoints = await GeoJson.Create(listings);
+            var geoJson = await GeoJson.Create(listings);
 
+            var totalLocations = listings.Count();
             var staysPerMonth = calendar.Count();
             var collectionPerMonth = calendar.Sum(c => c.Price);
 
-            var response = new { geoJson = geoPoints, staysPerMonth, collectionPerMonth, totalLocations = listings.Count() };
+            var response = new { geoJson, staysPerMonth, collectionPerMonth, totalLocations };
             
             return Newtonsoft.Json.JsonConvert.SerializeObject(response);
         }
@@ -44,7 +45,7 @@ namespace InsideAirbnbApp.Controllers.Api
         {
             var minPrice = int.Parse(Request.Form["minPrice"].ToString());
             var maxPrice = int.Parse(Request.Form["maxPrice"].ToString());
-            var neighbourhood = Request.Form["neighbourhood"].ToString();
+            var neighbourhood = int.Parse(Request.Form["neighbourhood"].ToString());
             var minReviewRate = int.Parse(Request.Form["minReviewRate"].ToString());
 
             //add validation
@@ -59,12 +60,13 @@ namespace InsideAirbnbApp.Controllers.Api
 
             var listings = _listingsRepo.Filter(filter);
             var calendar = _calendarRepo.Join(listings);
+            var geoJson = await GeoJson.Create(listings);
 
+            var totalLocations = listings.Count();
             var staysPerMonth = calendar.Count();
             var collectionPerMonth = calendar.Sum(c => c.Price);
-            var geoPoints = await GeoJson.Create(listings);
 
-            var response = new { geoJson = geoPoints, staysPerMonth, collectionPerMonth, totalLocations = listings.Count() };
+            var response = new { geoJson, staysPerMonth, collectionPerMonth, totalLocations };
 
             return Newtonsoft.Json.JsonConvert.SerializeObject(response);
         }

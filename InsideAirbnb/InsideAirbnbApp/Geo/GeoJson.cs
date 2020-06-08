@@ -23,10 +23,7 @@ namespace InsideAirbnbApp.Geo
                         type = "Feature",
                         properties = new Properties
                         {
-                            id = l.Id,
-                            neighbourhood = l.Neighbourhood,
-                            price = l.Price ?? 0,
-                            reviewScore = l.ReviewScoresRating?? 0
+                            id = l.Id
                         },
                         geometry = new Geometry
                         {

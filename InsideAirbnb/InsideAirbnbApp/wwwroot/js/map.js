@@ -160,7 +160,7 @@ map.on("load", function () {
     $("#submitFilter").on("click", async (e) => {
         var minPrice = $("#minPriceFilter").val();
         var maxPrice = $("#maxPriceFilter").val();
-        var neighbourhood = $("#neighbourhoodFilter option:selected").text();
+        var neighbourhood = $("#neighbourhoodFilter option:selected").val();
         var minReviewRate = $("#minReviewRateFilter").val();
 
         //add validation

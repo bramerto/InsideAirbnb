@@ -4,7 +4,7 @@
     {
         public int minPrice;
         public int maxPrice;
-        public string neighbourhood;
+        public int neighbourhood;
         public int minReviewRate;
     }
 }

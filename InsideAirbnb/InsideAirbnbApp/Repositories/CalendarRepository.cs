@@ -23,7 +23,7 @@ namespace InsideAirbnbApp.Repositories
 
         public IQueryable<CalendarViewModel> All()
         {
-            return _context.Calendar.Select(c => new CalendarViewModel { Price = c.Price }).AsNoTracking();
+            return _context.Calendar.Select(c => new CalendarViewModel { Price = c.Price??0 }).AsNoTracking();
         }
 
         public IQueryable<CalendarViewModel> Filter(Filter filter)
@@ -37,7 +37,7 @@ namespace InsideAirbnbApp.Repositories
                     _context.Calendar, 
                     listing => listing.Id, 
                     calendar => calendar.ListingId, 
-                    (listing, calendar) => new CalendarViewModel {Price = calendar.Price}
+                    (listing, calendar) => new CalendarViewModel {Price = calendar.Price??0}
                 )
                 .AsNoTracking();
         }

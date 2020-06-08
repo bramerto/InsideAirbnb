@@ -9,6 +9,7 @@ namespace InsideAirbnbApp.Models
         }
 
         public virtual DbSet<Calendar> Calendar { get; set; }
+        public virtual DbSet<Hosts> Hosts { get; set; }
         public virtual DbSet<Listings> Listings { get; set; }
         public virtual DbSet<Neighbourhoods> Neighbourhoods { get; set; }
         public virtual DbSet<Reviews> Reviews { get; set; }
@@ -32,15 +33,54 @@ namespace InsideAirbnbApp.Models
 
                 entity.Property(e => e.ListingId).HasColumnName("listing_id");
 
-                entity.Property(e => e.Price)
-                    .HasColumnName("price")
-                    .HasMaxLength(50);
+                entity.Property(e => e.Price).HasColumnName("price");
 
                 entity.HasOne(d => d.Listing)
                     .WithMany()
                     .HasForeignKey(x => x.ListingId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_calendar_listings");
+            });
+
+            modelBuilder.Entity<Hosts>(entity =>
+            {
+                entity.ToTable("hosts");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.About).HasColumnName("about");
+
+                entity.Property(e => e.AcceptanceRate).HasColumnName("acceptance_rate");
+
+                entity.Property(e => e.IsSuperhost).HasColumnName("is_superhost");
+
+                entity.Property(e => e.ListingsCount).HasColumnName("listings_count");
+
+                entity.Property(e => e.Location).HasColumnName("location");
+
+                entity.Property(e => e.Name).HasColumnName("name");
+
+                entity.Property(e => e.Neighbourhood).HasColumnName("neighbourhood");
+
+                entity.Property(e => e.PictureUrl).HasColumnName("picture_url");
+
+                entity.Property(e => e.ResponseRate).HasColumnName("response_rate");
+
+                entity.Property(e => e.ResponseTime).HasColumnName("response_time");
+
+                entity.Property(e => e.Since).HasColumnName("since");
+
+                entity.Property(e => e.ThumbnailUrl).HasColumnName("thumbnail_url");
+
+                entity.Property(e => e.TotalListingsCount).HasColumnName("total_listings_count");
+
+                entity.Property(e => e.Url)
+                    .IsRequired()
+                    .HasColumnName("url");
+
+                entity.Property(e => e.Verifications).HasColumnName("verifications");
             });
 
             modelBuilder.Entity<Listings>(entity =>
@@ -51,13 +91,7 @@ namespace InsideAirbnbApp.Models
                     .HasColumnName("id")
                     .ValueGeneratedNever();
 
-                entity.Property(e => e.Access)
-                    .IsRequired()
-                    .HasColumnName("access");
-
                 entity.Property(e => e.Accommodates).HasColumnName("accommodates");
-
-                entity.Property(e => e.Amenities).HasColumnName("amenities");
 
                 entity.Property(e => e.Availability30).HasColumnName("availability_30");
 
@@ -69,27 +103,15 @@ namespace InsideAirbnbApp.Models
 
                 entity.Property(e => e.Bathrooms).HasColumnName("bathrooms");
 
-                entity.Property(e => e.BedType).HasColumnName("bed_type");
-
                 entity.Property(e => e.Bedrooms).HasColumnName("bedrooms");
 
                 entity.Property(e => e.Beds).HasColumnName("beds");
 
-                entity.Property(e => e.CalculatedHostListingsCount).HasColumnName("calculated_host_listings_count");
-
-                entity.Property(e => e.CalendarLastScraped).HasColumnName("calendar_last_scraped");
-
                 entity.Property(e => e.CalendarUpdated).HasColumnName("calendar_updated");
-
-                entity.Property(e => e.CancellationPolicy)
-                    .IsRequired()
-                    .HasColumnName("cancellation_policy");
 
                 entity.Property(e => e.City).HasColumnName("city");
 
                 entity.Property(e => e.CleaningFee).HasColumnName("cleaning_fee");
-
-                entity.Property(e => e.Country).HasColumnName("country");
 
                 entity.Property(e => e.CountryCode).HasColumnName("country_code");
 
@@ -97,11 +119,7 @@ namespace InsideAirbnbApp.Models
                     .IsRequired()
                     .HasColumnName("description");
 
-                entity.Property(e => e.ExperiencesOffered)
-                    .IsRequired()
-                    .HasColumnName("experiences_offered");
-
-                entity.Property(e => e.ExtraPeople).HasColumnName("extra_people");
+                entity.Property(e => e.ExtraPeoplePrice).HasColumnName("extra_people_price");
 
                 entity.Property(e => e.FirstReview).HasColumnName("first_review");
 
@@ -109,79 +127,21 @@ namespace InsideAirbnbApp.Models
 
                 entity.Property(e => e.HasAvailability).HasColumnName("has_availability");
 
-                entity.Property(e => e.HostAbout).HasColumnName("host_about");
-
-                entity.Property(e => e.HostAcceptanceRate).HasColumnName("host_acceptance_rate");
-
-                entity.Property(e => e.HostHasProfilePic).HasColumnName("host_has_profile_pic");
-
                 entity.Property(e => e.HostId).HasColumnName("host_id");
-
-                entity.Property(e => e.HostIdentityVerified).HasColumnName("host_identity_verified");
-
-                entity.Property(e => e.HostIsSuperhost).HasColumnName("host_is_superhost");
-
-                entity.Property(e => e.HostListingsCount).HasColumnName("host_listings_count");
-
-                entity.Property(e => e.HostLocation).HasColumnName("host_location");
-
-                entity.Property(e => e.HostName).HasColumnName("host_name");
-
-                entity.Property(e => e.HostNeighbourhood).HasColumnName("host_neighbourhood");
-
-                entity.Property(e => e.HostPictureUrl).HasColumnName("host_picture_url");
-
-                entity.Property(e => e.HostResponseRate).HasColumnName("host_response_rate");
-
-                entity.Property(e => e.HostResponseTime).HasColumnName("host_response_time");
-
-                entity.Property(e => e.HostSince).HasColumnName("host_since");
-
-                entity.Property(e => e.HostThumbnailUrl).HasColumnName("host_thumbnail_url");
-
-                entity.Property(e => e.HostTotalListingsCount).HasColumnName("host_total_listings_count");
-
-                entity.Property(e => e.HostUrl)
-                    .IsRequired()
-                    .HasColumnName("host_url");
-
-                entity.Property(e => e.HostVerifications).HasColumnName("host_verifications");
-
-                entity.Property(e => e.HouseRules)
-                    .IsRequired()
-                    .HasColumnName("house_rules");
-
-                entity.Property(e => e.InstantBookable)
-                    .IsRequired()
-                    .HasColumnName("instant_bookable");
-
-                entity.Property(e => e.Interaction)
-                    .IsRequired()
-                    .HasColumnName("interaction");
-
-                entity.Property(e => e.IsBusinessTravelReady)
-                    .IsRequired()
-                    .HasColumnName("is_business_travel_ready");
-
-                entity.Property(e => e.IsLocationExact).HasColumnName("is_location_exact");
-
-                entity.Property(e => e.JurisdictionNames).HasColumnName("jurisdiction_names");
 
                 entity.Property(e => e.LastReview).HasColumnName("last_review");
 
-                entity.Property(e => e.LastScraped).HasColumnName("last_scraped");
-
-                entity.Property(e => e.Latitude).HasColumnName("latitude");
-
-                entity.Property(e => e.License).HasColumnName("license");
+                entity.Property(e => e.Latitude)
+                    .HasColumnName("latitude")
+                    .HasColumnType("decimal(21, 19)");
 
                 entity.Property(e => e.ListingUrl)
                     .IsRequired()
                     .HasColumnName("listing_url");
 
-                entity.Property(e => e.Longitude).HasColumnName("longitude");
-
-                entity.Property(e => e.Market).HasColumnName("market");
+                entity.Property(e => e.Longitude)
+                    .HasColumnName("longitude")
+                    .HasColumnType("decimal(19, 18)");
 
                 entity.Property(e => e.MaximumNights).HasColumnName("maximum_nights");
 
@@ -195,19 +155,7 @@ namespace InsideAirbnbApp.Models
                     .IsRequired()
                     .HasColumnName("name");
 
-                entity.Property(e => e.NeighborhoodOverview)
-                    .IsRequired()
-                    .HasColumnName("neighborhood_overview");
-
-                entity.Property(e => e.Neighbourhood).HasColumnName("neighbourhood");
-
-                entity.Property(e => e.NeighbourhoodCleansed).HasColumnName("neighbourhood_cleansed");
-
-                entity.Property(e => e.NeighbourhoodGroupCleansed).HasColumnName("neighbourhood_group_cleansed");
-
-                entity.Property(e => e.Notes)
-                    .IsRequired()
-                    .HasColumnName("notes");
+                entity.Property(e => e.NeighbourhoodId).HasColumnName("neighbourhood_id");
 
                 entity.Property(e => e.NumberOfReviews).HasColumnName("number_of_reviews");
 
@@ -218,18 +166,6 @@ namespace InsideAirbnbApp.Models
                 entity.Property(e => e.Price).HasColumnName("price");
 
                 entity.Property(e => e.PropertyType).HasColumnName("property_type");
-
-                entity.Property(e => e.RequireGuestPhoneVerification)
-                    .IsRequired()
-                    .HasColumnName("require_guest_phone_verification");
-
-                entity.Property(e => e.RequireGuestProfilePicture)
-                    .IsRequired()
-                    .HasColumnName("require_guest_profile_picture");
-
-                entity.Property(e => e.RequiresLicense)
-                    .IsRequired()
-                    .HasColumnName("requires_license");
 
                 entity.Property(e => e.ReviewScoresAccuracy).HasColumnName("review_scores_accuracy");
 
@@ -249,21 +185,9 @@ namespace InsideAirbnbApp.Models
 
                 entity.Property(e => e.RoomType).HasColumnName("room_type");
 
-                entity.Property(e => e.ScrapeId).HasColumnName("scrape_id");
-
                 entity.Property(e => e.SecurityDeposit).HasColumnName("security_deposit");
 
-                entity.Property(e => e.SmartLocation).HasColumnName("smart_location");
-
-                entity.Property(e => e.Space)
-                    .IsRequired()
-                    .HasColumnName("space");
-
                 entity.Property(e => e.SquareFeet).HasColumnName("square_feet");
-
-                entity.Property(e => e.State).HasColumnName("state");
-
-                entity.Property(e => e.Street).HasColumnName("street");
 
                 entity.Property(e => e.Summary)
                     .IsRequired()
@@ -271,30 +195,42 @@ namespace InsideAirbnbApp.Models
 
                 entity.Property(e => e.ThumbnailUrl).HasColumnName("thumbnail_url");
 
-                entity.Property(e => e.Transit)
-                    .IsRequired()
-                    .HasColumnName("transit");
-
                 entity.Property(e => e.WeeklyPrice).HasColumnName("weekly_price");
 
                 entity.Property(e => e.XlPictureUrl).HasColumnName("xl_picture_url");
 
                 entity.Property(e => e.Zipcode).HasColumnName("zipcode");
+
+                entity.HasOne(d => d.Host)
+                    .WithMany(p => p.Listings)
+                    .HasForeignKey(x => x.HostId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_listings_hosts");
+
+                entity.HasOne(d => d.IdNavigation)
+                    .WithOne(p => p.Listings)
+                    .HasForeignKey<Listings>(x => x.Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_listings_summary-listings");
+
+                entity.HasOne(d => d.Neighbourhood)
+                    .WithMany(p => p.Listings)
+                    .HasForeignKey(x => x.NeighbourhoodId)
+                    .HasConstraintName("FK_listings_neighbourhoods");
             });
 
             modelBuilder.Entity<Neighbourhoods>(entity =>
             {
-                entity.HasKey(x => x.Neighbourhood);
-
                 entity.ToTable("neighbourhoods");
-
-                entity.Property(e => e.Neighbourhood)
-                    .HasColumnName("neighbourhood")
-                    .HasMaxLength(50);
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .HasMaxLength(1);
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Neighbourhood)
+                    .IsRequired()
+                    .HasColumnName("neighbourhood")
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<Reviews>(entity =>
@@ -345,9 +281,13 @@ namespace InsideAirbnbApp.Models
 
                 entity.Property(e => e.LastReview).HasColumnName("last_review");
 
-                entity.Property(e => e.Latitude).HasColumnName("latitude");
+                entity.Property(e => e.Latitude)
+                    .HasColumnName("latitude")
+                    .HasColumnType("decimal(21, 19)");
 
-                entity.Property(e => e.Longitude).HasColumnName("longitude");
+                entity.Property(e => e.Longitude)
+                    .HasColumnName("longitude")
+                    .HasColumnType("decimal(19, 18)");
 
                 entity.Property(e => e.MinimumNights).HasColumnName("minimum_nights");
 
@@ -355,11 +295,7 @@ namespace InsideAirbnbApp.Models
                     .IsRequired()
                     .HasColumnName("name");
 
-                entity.Property(e => e.Neighbourhood).HasColumnName("neighbourhood");
-
-                entity.Property(e => e.NeighbourhoodGroup)
-                    .HasColumnName("neighbourhood_group")
-                    .HasMaxLength(1);
+                entity.Property(e => e.NeighbourhoodId).HasColumnName("neighbourhood_id");
 
                 entity.Property(e => e.NumberOfReviews).HasColumnName("number_of_reviews");
 
@@ -368,6 +304,11 @@ namespace InsideAirbnbApp.Models
                 entity.Property(e => e.ReviewsPerMonth).HasColumnName("reviews_per_month");
 
                 entity.Property(e => e.RoomType).HasColumnName("room_type");
+
+                entity.HasOne(d => d.Neighbourhood)
+                    .WithMany(p => p.SummaryListings)
+                    .HasForeignKey(x => x.NeighbourhoodId)
+                    .HasConstraintName("FK_summary-listings_neighbourhoods");
             });
 
             modelBuilder.Entity<SummaryReviews>(entity =>
