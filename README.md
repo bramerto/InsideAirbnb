@@ -23,4 +23,4 @@ InsideAirbnb app for NotS Windows Applications class assignment (April - June 20
 - [ ] De applicatie moet veilig zijn. Gebruik de OWASP top 5 om de meest voorkomende onveiligheden op te sporen en af te dichten.
 - [ ] De applicatie is aantoonbaar highly-scalable. Er worden daarvoor performance tests als bewijsmateriaal opgeleverd (voor de performance-verbeteringen en daarna).
 - [X] Authenticatie en autorisatie via Azure B2C (Authentication As A Service).
-- [ ] Caching service via Redis.
+- [X] Caching service via Redis.
