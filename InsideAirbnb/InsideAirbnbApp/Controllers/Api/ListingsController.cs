@@ -54,7 +54,7 @@ namespace InsideAirbnbApp.Controllers.Api
         [HttpPost]
         public async Task<IActionResult> GetFilteredListings()
         {
-            var filterRequest = new FilterRequest()
+            var filterRequest = new FilterRequest
             {
                 minPrice = Request.Form["minPrice"].ToString(),
                 maxPrice = Request.Form["maxPrice"].ToString(),
@@ -71,14 +71,7 @@ namespace InsideAirbnbApp.Controllers.Api
                 );
             }
 
-            var filter = new Filter
-            {
-                minPrice = int.Parse(filterRequest.minPrice),
-                maxPrice = int.Parse(filterRequest.maxPrice),
-                neighbourhood = int.Parse(filterRequest.neighbourhood),
-                minReviewRate = int.Parse(filterRequest.minReviewRate)
-            };
-
+            var filter = filterRequest.GetFilter();
             var key = $"FilteredMapResponse-{filter.minPrice}-{filter.maxPrice}-{filter.neighbourhood}-{filter.minReviewRate}";
 
             var cacheItem = await _cache.Get(key);
@@ -102,9 +95,9 @@ namespace InsideAirbnbApp.Controllers.Api
         }
 
         [HttpGet("{id}")]
-        public async Task<string> ListingDetails(int id)
+        public async Task<IActionResult> ListingDetails(int id)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(await _listingsRepo.Get(id));
+            return Ok(Newtonsoft.Json.JsonConvert.SerializeObject(await _listingsRepo.Get(id)));
         }
     }
 }

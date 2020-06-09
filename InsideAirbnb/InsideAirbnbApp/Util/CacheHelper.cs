@@ -20,12 +20,6 @@ namespace InsideAirbnbApp.Util
             };
         }
 
-        public CacheHelper(IDistributedCache cache, DistributedCacheEntryOptions options)
-        {
-            _cache = cache;
-            _cacheOptions = options;
-        }
-
         public async Task<string> Get(string key)
         {
             var item = await _cache.GetAsync(key);
