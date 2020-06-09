@@ -36,6 +36,11 @@ namespace InsideAirbnbApp.Repositories
                 .AsNoTracking();
         }
 
+        public IQueryable<NeighbourhoodsViewModel> AllStats(string type, int id = 0)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public IQueryable<NeighbourhoodsViewModel> Filter(Filter filter)
         {
             throw new System.NotImplementedException();

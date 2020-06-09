@@ -9,6 +9,7 @@ namespace InsideAirbnbApp.Repositories
     {
         public Task<T> Get(int id);
         public IQueryable<T> All();
+        public IQueryable<T> AllStats(string type, int id = 0);
         public IQueryable<T> Filter(Filter filters);
         public IQueryable<T> Join(IQueryable<ListingsViewModel> query);
     }

@@ -5,7 +5,7 @@ using InsideAirbnbApp.ViewModels;
 using Microsoft.EntityFrameworkCore;
 // ReSharper disable InconsistentNaming
 
-namespace InsideAirbnbApp.Geo
+namespace InsideAirbnbApp.Json
 {
     public class GeoJson
     {

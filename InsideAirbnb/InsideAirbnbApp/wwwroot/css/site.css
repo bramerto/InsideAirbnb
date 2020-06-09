@@ -24,6 +24,10 @@ a {
   border-color: #1861ac;
 }
 
+.row {
+    margin-top: 20px;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -89,4 +93,15 @@ body {
     display: block;
     left: 0;
     top: 57px;
+}
+
+/* Chart styles
+-------------------------------------------------- */
+
+#chart-container {
+    position: absolute;
+    width: 100%;
+    height: 90%;
+    top: 57px;
+    left: 0;
 }

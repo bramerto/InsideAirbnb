@@ -31,6 +31,11 @@ namespace InsideAirbnbApp.Repositories
                 .AsNoTracking();
         }
 
+        public IQueryable<CalendarViewModel> AllStats(string type, int id = 0)
+        {
+            throw new NotImplementedException();
+        }
+
         public IQueryable<CalendarViewModel> Filter(Filter filter)
         {
             throw new NotImplementedException();

@@ -5,7 +5,6 @@ using InsideAirbnbApp.Models;
 using InsideAirbnbApp.Repositories;
 using InsideAirbnbApp.ViewModels;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
 
 namespace InsideAirbnbApp.Controllers
 {
