@@ -1,14 +1,4 @@
-﻿function isEmpty(obj) {
-    for (var prop in obj) {
-        if (obj.hasOwnProperty(prop)) {
-            return false;
-        }
-    }
-
-    return JSON.stringify(obj) === JSON.stringify({});
-}
-
-if (!isEmpty($("#map"))) {
+﻿if (!isEmpty($("#map"))) {
     var geoJson;
     var lastId;
 
