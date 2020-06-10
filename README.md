@@ -10,7 +10,7 @@ InsideAirbnb app for NotS Windows Applications class assignment (April - June 20
 - [X] Kaart is clickable, details rechts op pagina, maakt gebruik van de mapbox API. (must)
 - [X] Layout idem als insideairbnb.com. (could)
 - [X] Details per item waarop gefiltered is: #overnachtingen, #opbrengst in de maand. (must)
-- [ ] Er moeten rollen toegevoegd en toegekend worden aan geregistreerde gebruikers. (must)
+- [X] Er moeten rollen toegevoegd en toegekend worden aan geregistreerde gebruikers. (must)
 - [X] Admin panel met resultaten zoals trends, totalen, gemiddelden, etc. worden weergegeven in charts. Denk daarbij aan bv. Gemiddelde beschikbaarheid per maand, gemiddelde beschikbaarheid per buurt, overzicht van gemiddelde huurprijs per buurt.
 
 ## Other Functional Requirements
