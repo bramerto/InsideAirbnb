@@ -1,4 +1,4 @@
-namespace InsideAirbnbApp.Models
+namespace InsideAirbnbApp.ViewModels
 {
     public class ErrorViewModel
     {
