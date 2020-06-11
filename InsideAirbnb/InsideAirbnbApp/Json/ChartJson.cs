@@ -15,10 +15,6 @@ namespace InsideAirbnbApp.Json
 
         public static async Task<ChartJson> CreateAvailability(IQueryable<ListingsViewModel> listings)
         {
-            var averageAvailabilityMonth = (int) await listings.AverageAsync(l => l.Availability30);
-            var averageAvailabilitySeason = (int) await listings.AverageAsync(l => l.Availability90);
-            var averageAvailabilityYear = (int) await listings.AverageAsync(l => l.Availability365);
-
             return new ChartJson
             {
                 labels = new List<string> { "" },
@@ -26,7 +22,7 @@ namespace InsideAirbnbApp.Json
                     new DataSet
                     {
                         label = "Maand",
-                        data = new List<int> { averageAvailabilityMonth },
+                        data = new List<int> { (int) await listings.AverageAsync(l => l.Availability30) },
                         borderWidth = 1,
                         backgroundColor = new List<string> {"rgba(0, 0, 128, 0.7)"},
                         borderColor = new List<string> {"rgba(0, 0, 128, 1.0)"}
@@ -34,7 +30,7 @@ namespace InsideAirbnbApp.Json
                     new DataSet
                     {
                         label = "Kwartaal",
-                        data = new List<int> { averageAvailabilitySeason },
+                        data = new List<int> { (int) await listings.AverageAsync(l => l.Availability90) },
                         borderWidth = 1,
                         backgroundColor = new List<string> {"rgba(0, 128, 0, 0.7)"},
                         borderColor = new List<string> {"rgba(0, 128, 0, 1.0)"}
@@ -42,7 +38,7 @@ namespace InsideAirbnbApp.Json
                     new DataSet
                     {
                         label = "Jaar",
-                        data = new List<int> { averageAvailabilityYear },
+                        data = new List<int> { (int) await listings.AverageAsync(l => l.Availability365) },
                         borderWidth = 1,
                         backgroundColor = new List<string> {"rgba(128, 0, 0, 0.7)"},
                         borderColor = new List<string> {"rgba(128, 0, 0, 1.0)"}
@@ -93,10 +89,6 @@ namespace InsideAirbnbApp.Json
 
         public static async Task<ChartJson> CreatePropertyType(IQueryable<ListingsViewModel> listings)
         {
-            var amountPropertyTypeApartment = listings.Count(l => l.PropertyType.Equals("Apartment"));
-            var amountPropertyTypeHouse = listings.Count(l => l.PropertyType.Equals("House"));
-            var amountPropertyTypeBnb = listings.Count(l => l.PropertyType.Equals("Bed & Breakfast"));
-
             return new ChartJson
             {
                 labels = new List<string> { "" },
@@ -104,7 +96,7 @@ namespace InsideAirbnbApp.Json
                     new DataSet
                     {
                         label = "Apartement",
-                        data = new List<int> { amountPropertyTypeApartment },
+                        data = new List<int> { await listings.CountAsync(l => l.PropertyType.Equals("Apartment")) },
                         borderWidth = 1,
                         backgroundColor = new List<string> {"rgba(0, 0, 128, 0.7)"},
                         borderColor = new List<string> {"rgba(0, 0, 128, 1.0)"}
@@ -112,7 +104,7 @@ namespace InsideAirbnbApp.Json
                     new DataSet
                     {
                         label = "Huis",
-                        data = new List<int> { amountPropertyTypeHouse },
+                        data = new List<int> { await listings.CountAsync(l => l.PropertyType.Equals("House")) },
                         borderWidth = 1,
                         backgroundColor = new List<string> {"rgba(0, 128, 0, 0.7)"},
                         borderColor = new List<string> {"rgba(0, 128, 0, 1.0)"}
@@ -120,7 +112,7 @@ namespace InsideAirbnbApp.Json
                     new DataSet
                     {
                         label = "Bed & Breakfast",
-                        data = new List<int> { amountPropertyTypeBnb },
+                        data = new List<int> { await listings.CountAsync(l => l.PropertyType.Equals("Bed & Breakfast")) },
                         borderWidth = 1,
                         backgroundColor = new List<string> {"rgba(128, 0, 0, 0.7)"},
                         borderColor = new List<string> {"rgba(128, 0, 0, 1.0)"}

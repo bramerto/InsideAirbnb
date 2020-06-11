@@ -62,7 +62,7 @@ namespace InsideAirbnbApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime lifetime, IDistributedCache cache)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             // Increases performance by compression
             app.UseResponseCompression();
