@@ -1,6 +1,3 @@
-using System;
-using System.Globalization;
-using System.Text;
 using InsideAirbnbApp.Models;
 using InsideAirbnbApp.Repositories;
 using InsideAirbnbApp.ViewModels;
@@ -84,31 +81,6 @@ namespace InsideAirbnbApp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
-            // Set cache time
-            // Source: https://docs.microsoft.com/en-us/aspnet/core/performance/caching/distributed?view=aspnetcore-3.1
-            lifetime.ApplicationStarted.Register(() =>
-            {
-                var currentTimeUtc = DateTime.UtcNow.ToString(CultureInfo.CurrentCulture);
-                var encodedCurrentTimeUtc = Encoding.UTF8.GetBytes(currentTimeUtc);
-                var options = new DistributedCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(60));
-                cache.Set("cachedTimeUTC", encodedCurrentTimeUtc, options);
-            });
-
-            //Block HTTP headers for security
-            app.Use(async (context, next) =>
-            {
-                // Blocks web page from being included in <frame>, <iframe>, <embed> or <object>
-                context.Response.Headers.Add("X-Frame-Options", "DENY");
-                // How much referrer info must included in requests
-                context.Response.Headers.Add("Referrer-Policy", "no-referrer");
-                // Blocks a request if the request destination is with a wrong type and MIME type combo 
-                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-                // Cross side scripting protection
-                context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
-
-                await next();
-            });
 
             app.UseRouting();
 
