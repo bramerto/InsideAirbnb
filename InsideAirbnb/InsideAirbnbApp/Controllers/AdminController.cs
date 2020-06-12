@@ -15,6 +15,7 @@ namespace InsideAirbnbApp.Controllers
         {
             _repo = repo;
         }
+
         [Authorize (Policy = "Admin")]
         public async Task<IActionResult> Index()
         {

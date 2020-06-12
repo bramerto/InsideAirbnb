@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authentication.AzureADB2C.UI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -51,7 +50,6 @@ namespace InsideAirbnbApp
             services.AddAuthentication(AzureADB2CDefaults.AuthenticationScheme).AddAzureADB2C(options => Configuration.Bind("AzureAdB2C", options));
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("Reader", policy => policy.RequireClaim("extension_Role", "Reader"));
                 options.AddPolicy("Admin", policy => policy.RequireClaim("extension_Role", "Admin"));
             });
 
