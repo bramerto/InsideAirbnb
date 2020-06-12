@@ -348,6 +348,8 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# Sensative Data Exposure
 InsideAirbnb/InsideAirbnbApp/appsettings.json
 InsideAirbnb/InsideAirbnbApp/appsettings.Development.json
 InsideAirbnb/InsideAirbnbApp/App.config
