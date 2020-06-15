@@ -28,11 +28,10 @@ namespace InsideAirbnbApp
             services.AddResponseCompression();
 
             // Profiling tools
-            services.AddMiniProfiler(options =>
-                {
+            services.AddMiniProfiler(options => {
                     options.PopupRenderPosition = StackExchange.Profiling.RenderPosition.BottomLeft;
                     options.PopupShowTimeWithChildren = true;
-                }).AddEntityFramework();
+            }).AddEntityFramework();
 
             // Database and Redis cache server
             services.AddDbContext<AirbnbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AirBnb")));
@@ -48,13 +47,13 @@ namespace InsideAirbnbApp
 
             // Azure Active Directory B2C
             services.AddAuthentication(AzureADB2CDefaults.AuthenticationScheme).AddAzureADB2C(options => Configuration.Bind("AzureAdB2C", options));
-            services.AddAuthorization(options =>
-            {
+            services.AddAuthorization(options => {
                 options.AddPolicy("Admin", policy => policy.RequireClaim("extension_Role", "Admin"));
             });
 
             // Default 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options => { options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore; });
             services.AddRazorPages();
             services.AddMvc();
         }
