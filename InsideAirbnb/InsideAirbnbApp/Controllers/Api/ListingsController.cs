@@ -98,8 +98,6 @@ namespace InsideAirbnbApp.Controllers.Api
         [HttpGet("{id}")]
         public async Task<IActionResult> ListingDetails(int id)
         {
-            //add id validation
-
             var key = $"ListingDetail-{id}";
             var cacheItem = await _cache.Get(key);
             if (cacheItem != null) return Ok(cacheItem);
@@ -130,8 +128,6 @@ namespace InsideAirbnbApp.Controllers.Api
         [HttpGet("chart/average/availability/{neighbourhoodId}")]
         public async Task<IActionResult> GetListingsAverageAvailabilityFiltered(int neighbourhoodId)
         {
-            //add id validation
-
             var key = $"AverageAvailabilityFiltered-{neighbourhoodId}";
             var cacheItem = await _cache.Get(key);
             if (cacheItem != null) return Ok(cacheItem);
@@ -164,8 +160,6 @@ namespace InsideAirbnbApp.Controllers.Api
         [HttpGet("chart/average/prices/{neighbourhoodId}")]
         public async Task<IActionResult> GetListingsAveragePriceFiltered(int neighbourhoodId)
         {
-            //add id validation
-
             var key = $"AveragePriceFiltered-{neighbourhoodId}";
             var cacheItem = await _cache.Get(key);
             if (cacheItem != null) return Ok(cacheItem);
@@ -198,8 +192,6 @@ namespace InsideAirbnbApp.Controllers.Api
         [HttpGet("chart/property/type/{neighbourhoodId}")]
         public async Task<IActionResult> GetListingsAverageReviewsFiltered(int neighbourhoodId)
         {
-            //add id validation
-
             var key = $"PropertyTypes-{neighbourhoodId}";
             var cacheItem = await _cache.Get(key);
             if (cacheItem != null) return Ok(cacheItem);

@@ -21,7 +21,6 @@ namespace InsideAirbnbApp.Controllers
             return View(await _repo.All().ToListAsync());
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
