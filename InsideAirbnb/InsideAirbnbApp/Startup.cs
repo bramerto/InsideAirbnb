@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.AzureADB2C.UI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -64,6 +65,8 @@ namespace InsideAirbnbApp
             // Increases performance by compression
             app.UseResponseCompression();
 
+            // Redirects to homepage after signout
+            app.UseRewriter(new RewriteOptions().AddRedirect("AzureADB2C/Account/SignedOut", "/"));
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
