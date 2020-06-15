@@ -36,7 +36,7 @@ namespace InsideAirbnbApp
             // Database and Redis cache server
             services.AddDbContext<AirbnbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AirBnb")));
             services.AddStackExchangeRedisCache(options => {
-                options.Configuration = Configuration.GetConnectionString("Redis");
+                options.Configuration = "localhost:6379";
                 options.InstanceName = "InsideAirbnb";
             });
 

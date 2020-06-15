@@ -16,7 +16,7 @@ namespace InsideAirbnbApp.Util
             _cacheOptions = new DistributedCacheEntryOptions
             {
                 SlidingExpiration = TimeSpan.FromMinutes(1),
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2)
             };
         }
 
@@ -26,9 +26,9 @@ namespace InsideAirbnbApp.Util
             return item == null ? null : Encoding.ASCII.GetString(item);
         }
 
-        public void Set(string key, string response)
+        public async void Set(string key, string response)
         {
-            _cache.SetAsync(key, Encoding.ASCII.GetBytes(response), _cacheOptions);
+            await _cache.SetAsync(key, Encoding.ASCII.GetBytes(response), _cacheOptions);
         }
     }
 }

@@ -50,6 +50,7 @@ namespace InsideAirbnbApp.Repositories
                     Latitude = l.Latitude,
                     Longitude = l.Longitude
                 })
+                .Take(100)
                 .AsNoTracking();
         }
 
