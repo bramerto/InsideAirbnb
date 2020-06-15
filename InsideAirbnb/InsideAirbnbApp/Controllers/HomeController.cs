@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using InsideAirbnbApp.Models;
 using InsideAirbnbApp.Repositories;
 using InsideAirbnbApp.ViewModels;
 using Microsoft.EntityFrameworkCore;
